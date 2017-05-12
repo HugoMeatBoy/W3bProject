@@ -16,6 +16,11 @@ var auth = {
 
 }
 
+
+
+
+
+
 function genToken(user) {
   var expires = expiresIn(1); // 1 day
   var token = jwt.encode({

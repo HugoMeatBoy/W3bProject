@@ -45,7 +45,7 @@
     });
 
 
-    //app.all('/api/*', [require('./Auth/idRequest')]);
+    app.all('/*', [require('./middlewares/tokenControl.js')]);
 
     app.use('/', require('./routes/index.js'));
 
