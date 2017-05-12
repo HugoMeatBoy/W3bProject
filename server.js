@@ -4,35 +4,49 @@
   var pg = require('pg');
   var path = require('path');
   var cookie = require('cookie-parser');
-  var  html = require('html');
+  var html = require('html');
+  var ejs = require('ejs');
   require('dotenv').load();
 
 
   var app  = express();
 
   app.use(express.static(__dirname + '/public'));
+  app.engine('html', require('ejs').renderFile);
   app.set('view engine', 'html');
-    app.set('views', path.join(__dirname + '/views'));
-    //app.use(bodyParser.urlencoded({'extended':'true'}));
-    //app.use(bodyParser.json());
-    //app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
+  app.set('views', __dirname + '/public/views');
 
 
 
+  app.use(bodyParser.urlencoded({'extended':'true'}));
+  app.use(bodyParser.json());
+  app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
+
+  //Configuration CORS
+  app.all('/*', function(req, res, next) {
+      res.header("Access-Control-Allow-Origin", "*");
+      res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+      res.header('Access-Control-Allow-Headers', 'Content-type,Accept,X-Access-Token,X-Key');
+      if (req.method == 'OPTIONS') {
+        res.status(200).end();
+      } else {
+        next();
+      }
+    });
 
 
-  var ssql = "SELECT * FROM ME WHERE nom='o'";
 
-
+  var ssql = "SELECT * FROM ME";
+/*
   app.get('/', function(req, res) {
-    res.render('./lol.html');
+    res.render('./lol');
   });
-
+*/
   app.get('/', function(req, res) {
     query(ssql,function(rows,err){
         if(rows[0] !== undefined) {
           res.status(200);
-          res.json({message:"ok"});
+          res.render('./lol',{message:"ok"});
         } else {
           res.status(500);
           res.json({message:"no"});
@@ -42,6 +56,19 @@
 
 
 
+
+
+
+
+
+
+
+/*
+  app.use(function(req, res, next) {
+    res.status(404);
+    res.render("Err 404");
+  });
+*/
 
   app.set('port', process.env.PORT);
 
@@ -54,7 +81,7 @@
     var query = function(sql, callback)
     {
 
-      var connectionString = "tcp://uakurcnvemamzx:60b9a5fcc117bfdd08ffdf3a933c3bc1ee9e2f2cb46f83ae98f3ab602758ceac@ec2-174-129-223-193.compute-1.amazonaws.com:5432/d2knvek1s99515";
+      var connectionString = process.env.DB_ACCESS;
       pg.defaults.ssl = true;
       pg.connect(connectionString, function(error, client, done) {
         // Problème de connexion à la BD
