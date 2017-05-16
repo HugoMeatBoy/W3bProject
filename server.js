@@ -17,7 +17,7 @@
 
 
 
-
+  app.use(morgan('dev'));
   app.use(express.static(__dirname + '/public'));
   app.engine('html', require('ejs').renderFile);
   app.set('view engine', 'html');
@@ -45,11 +45,10 @@
     });
 
 
-    app.all('/*', [require('./middlewares/tokenControl.js')]);
+    app.all('/lll', [require('./middlewares/tokenControl.js')]);
 
     app.use('/', require('./routes/index.js'));
 
-    var html = "OH";
 
 /*
 

@@ -10,7 +10,9 @@ var html = 'OH';
 
 router.get('/', auth.hello);
 
-router.post('/', auth.login);
+router.post('/home', auth.login);
+
+router.get('/api', auth.welcome);
 /* Routes for members
 router.get('/api/user/:idU', auth.getUser);
 

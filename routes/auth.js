@@ -1,5 +1,6 @@
 var jwt = require('jwt-simple');
 var key = process.env.ENCODING_KEY;
+
 var auth = {
 
 
@@ -7,12 +8,17 @@ var auth = {
       res.status(200).render('lol');
   },
 
-  login: function(req,res){
-    res.json(genToken("Boy"));
-
+   login: function(req,res){
+     console.log("WOW");
+      res.status(200).json(genToken("Boy"));
   },
 
-  getUser: function(res,req){}
+
+  getUser: function(req,res){},
+
+  welcome: function(req,res){
+      res.status(200).send("Okay");
+  }
 
 }
 

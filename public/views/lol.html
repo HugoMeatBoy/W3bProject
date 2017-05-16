@@ -1,25 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Page Title</title>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
-<script src="./app.js"></script>
-
-</head>
-
-<body ng-app="myApp">
-
-
-
-<div  ng-controller="myCtrl">
+<div ng-show="mc.isSet('home')">
 
   <p>Today's welcome message is:</p>
-  <h1>{{message}}</h1>
+  <h1 ng-click="mc.setTab('user')">{{message}}</h1>
+  <button ng-click="mc.test()">LOL</button>
 
 </div>
-</body>
-</html>
+<div ng-show="mc.isSet('user')">
+  <p>8=============D</p>
+  <h1 ng-click="mc.setTab('user')">{{message}}</h1>
+</div>

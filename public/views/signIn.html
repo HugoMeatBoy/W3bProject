@@ -1,0 +1,22 @@
+<form>
+        <div>
+          <p>Inscrivez vous</p>
+          <hr>
+          <div class="group">
+            <input type="email" name="mailSignIn" id="username" ng-model="user.username" required>
+            <span class="highlight"></span>
+            <span class="bar"></span>
+            <label>Adresse mail</label>
+          </div>
+          <div class="group">
+            <input type="password" name="mdpSignIn" id="password" ng-model="user.password" required>
+            <span class="highlight"></span>
+            <span class="bar"></span>
+            <label>Mot de passe</label>
+          </div>
+          <div>
+            <button type="button" ng-click="login()"  class="buttonSub middleButton">se connecter</button>
+          </div>
+          <div><a ng-href="/signup">S'inscrire</a></div>
+        </div>
+</form>
