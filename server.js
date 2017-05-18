@@ -45,7 +45,7 @@
     });
 
 
-    app.all('/lll', [require('./middlewares/tokenControl.js')]);
+    app.all('/api/*', [require('./middlewares/tokenControl.js')]);
 
     app.use('/', require('./routes/index.js'));
 

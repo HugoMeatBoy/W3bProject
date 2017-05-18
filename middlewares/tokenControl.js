@@ -8,7 +8,6 @@ module.exports = function(req, res, next) {
 
 
     if (!token) {
-      console.log("Nok");
       res.status(401);
       res.json({
         "status": 401,

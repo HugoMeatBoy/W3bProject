@@ -65,7 +65,7 @@ app.controller('LoginCtrl', ['$scope', '$http','$window',  '$location', 'TokenFa
 
             //  UserAuthFactory.login(username, password).success(function(data) {
 
-                //TokenFact.log = true;
+                TokenFact.log = true;
 
                 //$window.sessionStorage.token = "test";
 
@@ -77,16 +77,25 @@ app.controller('LoginCtrl', ['$scope', '$http','$window',  '$location', 'TokenFa
                         password: password
                       }
                     }).then(function successCallback(response) {
-                        console.log(response.data);
-                        $scope.welcome = response.data.token;
+                        $window.sessionStorage.token = response.data.token;
                       }, function errorCallback(response) {
-                        $scope.welcome = response.status;
                       });
-                //  $location.path("/home");
+
+                  $location.path("/home");
 
               //};
           }else{
             $location.path("/login");
           };
         };
+
+        $scope.logout = function() {
+          if (TokenFact.log) {
+            TokenFact.log = false;
+            delete $window.sessionStorage.token;
+            delete $window.sessionStorage.com;
+            $location.path("/login");
+          };
+        };
+
 }]);
