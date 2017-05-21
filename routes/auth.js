@@ -8,19 +8,15 @@ var conString = process.env.DB_ACCESS;
 var auth = {
 
 
-  hello: function(req, res) {
-      res.status(200).json({'message':'lol'});
-  },
-
    login: function(req,res,callback){
-     var user = req.body.username || "o";
-     var password = req.body.password || "o";
+     var user = req.body.username || "";
+     var password = req.body.password || "";
 
 
      if(user && password){
        auth.authentication(user,password,function(results){
 
-          if (!results) { // If authentication fails, we send a 401 back
+          if (!results || results == "") { 
             res.status(401);
             res.json({
               "status": 401,
@@ -29,7 +25,7 @@ var auth = {
             return;
           }
           else {
-            console.log(results);
+
             if(results=="errorDB"){
               res.status(501);
               res.json({
@@ -67,16 +63,18 @@ var auth = {
 
        }
 
-       var sql = "SELECT * FROM ME WHERE nom=\'" + user + "\';";
+
+       var sql = "SELECT * FROM ME WHERE nom=\'"+ user +"\';";
+
        client.query(sql,  function(err, result) {
          //call `done()` to release the client back to the pool
          done();
 
          if(err) {
-           callback("errorDB");
+           callback("errorDB ");
            return;
-         }else{
-           console.log(result.rows);
+         }else {
+
            callback(result.rows);
            return;
         }
@@ -98,11 +96,12 @@ var auth = {
 
 
 
-function genToken(user) {
+function genToken(user,time) {
   var expires = expiresIn(1); // 1 day
   var token = jwt.encode({
     exp: expires,
-    user: user
+    user: user,
+    time: time
   },key);
 
   return {

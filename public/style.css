@@ -1,0 +1,113 @@
+/* BODY */
+body{
+
+
+  background-color: #252525;
+  padding-top: 2%;
+  padding-left: 12%;
+  padding-right:12%;
+
+
+}
+
+
+#bodyScale{
+
+  background-color: #C5C5C5;
+
+}
+
+
+/* LOGIN */
+
+.forms{
+  margin-left: 6%;
+  margin-right: 6%;
+  margin-top:4%;
+  margin-bottom: 4%;
+  text-align: center;
+}
+
+#loginForm{
+  font-size: 23px;
+  font-style: italic;
+  font-family: "Tw Cen MT", sans-serif;
+  background-color: #CD2828;
+  text-align: center;
+  color:white;
+  padding-left: 6%;
+}
+
+#signUpForm{
+  font-family: "Tw Cen MT", sans-serif;
+  font-size:29px;
+  text-decoration: underline;
+  background-color: #606060;
+  color: white;
+  padding: 5%;
+  margin-right: 25%;
+  margin-left: 5%;
+}
+
+
+#intro{
+  width:15%;
+  text-align: center;
+  background-color: #CDCDCD;
+  margin:50px;
+  padding:50px;
+  color:#CD2525;
+
+}
+
+#loginForm input:focus + label {
+  color: #CDCDCD !important;
+}
+
+#loginForm input:focus {
+  border-bottom: 1px solid #CDCDCD !important ;
+  box-shadow: 0 1px 0 0 #CDCDCD !important;
+}
+
+
+#signUpForm input:focus {
+  border-bottom: 1px solid #060606 !important ;
+  box-shadow: 0 1px 0 0 #060606 !important;
+  color:#060606;
+}
+
+
+label{
+  color: white;
+}
+
+#LoginBut{
+  font-size: 15px;
+  font-style: italic;
+  background-color: #A8DDA8;
+  box-shadow: 0 0 2px 2px;
+}
+
+#signUpBut{
+  font-size: 15px;
+  background-color: #A8A8DD;
+  box-shadow: 0 0 0 0;
+}
+
+
+*::-webkit-input-placeholder { /* Chrome */
+    color: #EEEEEE;
+    opacity: 0.5;
+}
+*:-moz-placeholder { /* FF 4-18 */
+    color: #EEEEEE;
+    opacity: 0.5;
+}
+*::-moz-placeholder { /*FF 18+*/
+    color: #EEEEEE;
+    opacity: 0.5;
+}
+*:-ms-input-placeholder {
+    color: #EEEEE;
+    opacity: 0.5;
+}

@@ -1,26 +1,38 @@
 <!DOCTYPE html>
 <html ng-app="SpeedRunners">
 <head>
-<title>Page Title</title>
+<title>SpeedRunners</title>
 
 <meta charset="iso-8859-1">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<link href="./style.css" rel="stylesheet">
+
+
 
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
 
 <script type="text/javascript" src="./app.js"></script>
-<script type="text/javascript" src="./controller.js"></script>
+<script type="text/javascript" src="./js/controller.js"></script>
+
+<script type="text/javascript" src="./js/authFactory.js"></script>
 
 
 </head>
 
-<body>
+<body >
 
+  <header ></header>
 
-  <div class="container" ng-view></div>
+  <div id="bodyScale" ng-view></div>
 
 </body>
 </html>

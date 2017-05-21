@@ -8,8 +8,6 @@ var speedrun = require('./speedrun.js');
 var html = 'OH';
 
 
-router.get('/', auth.hello);
-
 router.post('/home', auth.login);
 
 router.get('/api', auth.welcome);
