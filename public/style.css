@@ -18,7 +18,7 @@ body{
 }
 
 
-/* LOGIN */
+/* LOGIN - SIGNUP VIEWS */
 
 .forms{
   margin-left: 6%;
@@ -84,14 +84,13 @@ label{
 #LoginBut{
   font-size: 15px;
   font-style: italic;
-  background-color: #A8DDA8;
-  box-shadow: 0 0 2px 2px;
+  background-color: #88CC88;
+  box-shadow: 0 0 1px 1px;
 }
 
 #signUpBut{
   font-size: 15px;
-  background-color: #A8A8DD;
-  box-shadow: 0 0 0 0;
+  background-color: #7777DD;
 }
 
 
@@ -118,4 +117,24 @@ label{
   font-weight: bold;
   font-size: 35px;
   color:#FF5500;
+}
+
+/* NAV BAR HEADER */
+
+
+#navigationBar {
+
+  height:60px;
+  color: #A8A8A8;
+  background-color: #848484;
+  text-transform: uppercase;
+  font-family: "Tw Cen MT", sans-serif;
+
+
+}
+
+
+#LogoutBut{
+  height: 60px;
+  background-color: #FF4444;
 }

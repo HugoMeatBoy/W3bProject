@@ -27,7 +27,6 @@ app.controller('DisplayCtrl', ['$scope','$window', '$location', 'TokenFact', fun
     }
 
     $scope.isLogged = function(){
-      console.log("coucou");
       if(TokenFact.log){
         return true;
       }else{
@@ -40,9 +39,12 @@ app.controller('DisplayCtrl', ['$scope','$window', '$location', 'TokenFact', fun
 app.controller('LoginCtrl', ['$scope', '$http','$window',  '$location', 'TokenFact',
         function($scope, $http, $window, $location, TokenFact) {
 
+
           $scope.login = function() {
-            var username = $scope.user;
-            var password = $scope.password;
+
+            console.log($scope.activeUser);
+            username = $scope.user;
+            password = $scope.password;
 
             console.log(username + password);
            if (username !== undefined && password !== undefined) {
@@ -55,10 +57,12 @@ app.controller('LoginCtrl', ['$scope', '$http','$window',  '$location', 'TokenFa
                         username: username,
                         password: password
                       }
-                    }).then(function successCallback(response) {
+                    }).then(function successCallback(response) { //Success connection
                           TokenFact.log = true;
                           $window.sessionStorage.token = response.data.token;
-                          console.log("okay " + $window.sessionStorage.token);
+                          $window.sessionStorage.user = username;
+
+
                           $scope.alertMessage = "";
                           $location.path("/home");
                       }, function errorCallback(response) {
@@ -76,6 +80,13 @@ app.controller('LoginCtrl', ['$scope', '$http','$window',  '$location', 'TokenFa
           };
         };
 
+
+
+}]);
+
+app.controller('UserCtrl',['$scope', '$http','$window',  '$location',
+        function($scope, $http, $window, $location) {
+          $scope.activeUser =  $window.sessionStorage.user;
 
 
 }]);

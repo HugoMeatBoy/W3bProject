@@ -40,7 +40,7 @@ app.config(function($routeProvider, $httpProvider) {
     }
   }).when('/home', {
     templateUrl: 'views/home.html',
-    controller: 'LoginCtrl',
+    controller: 'UserCtrl',
     permission: {
       login: true
     }
@@ -72,6 +72,10 @@ app.run(function($rootScope, $window, $location, TokenFact) {
     //  DisplayCtrl.isLogged();
       if (!TokenFact.user) TokenFact.user = $window.sessionStorage.user;
 
+    }
+
+    if (TokenFact.log == true && $location.path() == '/') {
+      $location.path('/home');
     }
   });
 
