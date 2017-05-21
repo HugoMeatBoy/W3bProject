@@ -108,6 +108,14 @@ label{
     opacity: 0.5;
 }
 *:-ms-input-placeholder {
-    color: #EEEEE;
+    color: #EEEEEE;
     opacity: 0.5;
+}
+
+.alert{
+  font-family: "Lucida Console";
+  text-align: center;
+  font-weight: bold;
+  font-size: 35px;
+  color:#FF5500;
 }

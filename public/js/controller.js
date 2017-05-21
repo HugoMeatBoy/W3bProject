@@ -15,6 +15,27 @@ app.factory('UserAuthFactory', function($window, $location, $http, TokenFact) {
     }
   }*/
 });
+app.controller('DisplayCtrl', ['$scope','$window', '$location', 'TokenFact', function($scope,$window,  $location, TokenFact){
+
+    $scope.logout = function() {
+      if (TokenFact.log) {
+        TokenFact.log = false;
+        delete $window.sessionStorage.token;
+        delete $window.sessionStorage.com;
+      }
+      $location.path("/");
+    }
+
+    $scope.isLogged = function(){
+      console.log("coucou");
+      if(TokenFact.log){
+        return true;
+      }else{
+        return false;
+      }
+    }
+
+}]);
 
 app.controller('LoginCtrl', ['$scope', '$http','$window',  '$location', 'TokenFact',
         function($scope, $http, $window, $location, TokenFact) {
@@ -41,6 +62,7 @@ app.controller('LoginCtrl', ['$scope', '$http','$window',  '$location', 'TokenFa
                           $scope.alertMessage = "";
                           $location.path("/home");
                       }, function errorCallback(response) {
+                          $scope.alertMessage = "/!\\ " + response.data.message;
                           $location.path("/");
                       });
 

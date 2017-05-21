@@ -1,5 +1,3 @@
-
-
 app.factory('TokenFact', function($window) {
 
       var token = {

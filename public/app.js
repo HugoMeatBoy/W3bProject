@@ -117,18 +117,6 @@ app.directive("header", function() {
 });
 
 
-app.controller('DisplayCtrl', ['$scope','$window', '$location', 'TokenFact', function($scope,$window,  $location, TokenFact){
-
-  $scope.logout = function() {
-    console.log("OK");
-    if (TokenFact.log) {
-      TokenFact.log = false;
-      delete $window.sessionStorage.token;
-      delete $window.sessionStorage.com;
-        console.log("OK");
-    }
-    $location.path("/");
-  }
 /*  $scope.isLogged = function() {
 
     console.log("ok");
@@ -141,7 +129,7 @@ app.controller('DisplayCtrl', ['$scope','$window', '$location', 'TokenFact', fun
     }*/
   //};
 
-}]);
+
 
 
 

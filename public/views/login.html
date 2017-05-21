@@ -1,4 +1,7 @@
 <img src="./images/logo.png" class="responsive-img"/>
+<div>
+  <p class="alert">{{alertMessage}}</p>
+</div>
 <form class="forms" id="loginForm">
     <table>
       <th style="width:40%">
@@ -18,10 +21,8 @@
         <button id="LoginBut" class="btn waves-effect waves-light" type="button" ng-click="login()" >Sign In</button>
       </th>
     </table>
-    <div>
-      {{alertMessage}}
-    </div>
 </form>
+
 
 <table class="forms">
   <th id="intro">
