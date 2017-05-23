@@ -132,9 +132,3 @@ app.directive("header", function() {
       return false;
     }*/
   //};
-
-
-
-
-
-app.constant('APPLINK','localhost:3000');

@@ -36,8 +36,8 @@ app.controller('DisplayCtrl', ['$scope','$window', '$location', 'TokenFact', fun
 
 }]);
 
-app.controller('LoginCtrl', ['$scope', '$http','$window',  '$location', 'TokenFact',
-        function($scope, $http, $window, $location, TokenFact) {
+app.controller('LoginCtrl', ['$scope', '$http','$window',  '$location', 'TokenFact','LoginFact','RegistrationFact',
+        function($scope, $http, $window, $location, TokenFact, LoginFact, RegistrationFact) {
 
 
           $scope.login = function() {
@@ -47,15 +47,7 @@ app.controller('LoginCtrl', ['$scope', '$http','$window',  '$location', 'TokenFa
 
            if (username !== undefined && password !== undefined) {
 
-
-                $http({
-                      method: 'POST',
-                      url: '/home',
-                      data:{
-                        username: username,
-                        password: password
-                      }
-                    }).then(function successCallback(response) { //Success connection
+             LoginFact.userLogin(username,password).then(function successCallback(response) { //Success connection
                           TokenFact.log = true;
                           $window.sessionStorage.token = response.data.token;
                           $window.sessionStorage.user = username;
@@ -76,6 +68,9 @@ app.controller('LoginCtrl', ['$scope', '$http','$window',  '$location', 'TokenFa
           };
         };
 
+
+
+
         $scope.signUp = function() {
 
           userSignup = $scope.username;
@@ -89,15 +84,7 @@ app.controller('LoginCtrl', ['$scope', '$http','$window',  '$location', 'TokenFa
          if (userSignup !== undefined && passOne !== undefined && passTwo !== undefined) {
            if(passOne==passTwo){
 
-              $http({
-                    method: 'POST',
-                    url: '/registration',
-                    data:{
-                      username: userSignup,
-                      passOne: passOne,
-                      passTwo: passTwo
-                    }
-                  }).then(function successCallback(response) { //Success connection
+             RegistrationFact.userReg(userSignup,passOne,passTwo).then(function successCallback(response) { //Success connection
                         $scope.alertMessage = response.data.message;;
                         $location.path("/");
                     }, function errorCallback(response) {
@@ -122,8 +109,24 @@ app.controller('LoginCtrl', ['$scope', '$http','$window',  '$location', 'TokenFa
 }]);
 
 app.controller('UserCtrl',['$scope', '$http','$window',  '$location',
-        function($scope, $http, $window, $location) {
+        function($scope, $http, $window, $location){
           $scope.activeUser =  $window.sessionStorage.user;
 
+      /*    $http({
+                method: 'GET',
+                url: '/api/',
+                data:{
+                  username: "",
+                  passOne: passOne,
+                  passTwo: passTwo
+                }
+              }).then(function successCallback(response) { //Success connection
+                    $scope.alertMessage = response.data.message;;
+                    $location.path("/");
+                }, function errorCallback(response) {
+                    $scope.alertMessage = "/!\\ " + response.data.message;
+                    $location.path("/");
+                });
 
+*/
 }]);

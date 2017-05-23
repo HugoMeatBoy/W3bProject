@@ -155,7 +155,7 @@ var auth = {
        }
 
 
-       var sql = "INSERT INTO membre VALUES(3,\'"+user+"\',\'"+passwordCry+"\');";
+       var sql = "INSERT INTO membre VALUES(4,\'"+user+"\',\'"+passwordCry+"\');";
 
        client.query(sql,  function(err, result) {
          //call `done()` to release the client back to the pool
