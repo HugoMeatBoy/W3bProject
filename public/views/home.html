@@ -3,15 +3,15 @@
 </div>
 
 <div id="userGames">
-  <table>
+  <table  ng-repeat="jeux in datas">
     <tr>
       <th colspan="2">
-        Game
+        Game {{datas}}
       </th>
     </tr>
     <tr>
       <td style="width:70%" class="gameCat">
-        Categorie
+        Categorie {{jeux.nomjeu}}
       </td>
 
       <td>

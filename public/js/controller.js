@@ -34,6 +34,14 @@ app.controller('DisplayCtrl', ['$scope','$window', '$location', 'TokenFact', fun
       }
     }
 
+    $scope.goHome = function(){
+      $location.path("/home");
+    }
+
+    $scope.goGames = function(){
+      $location.path("/games");
+    }
+
 }]);
 
 app.controller('LoginCtrl', ['$scope', '$http','$window',  '$location', 'TokenFact','LoginFact','RegistrationFact',
@@ -52,7 +60,7 @@ app.controller('LoginCtrl', ['$scope', '$http','$window',  '$location', 'TokenFa
                           $window.sessionStorage.token = response.data.token;
                           $window.sessionStorage.user = username;
                           $scope.alertMessage = "";
-                          $location.path("/api/home");
+                          $location.path("/home");
                       }, function errorCallback(response) {
                           $scope.alertMessage = "/!\\ " + response.data.message;
                           $location.path("/");
@@ -112,21 +120,48 @@ app.controller('UserCtrl',['$scope', '$http','$window',  '$location',
         function($scope, $http, $window, $location){
           $scope.activeUser =  $window.sessionStorage.user;
 
-      /*    $http({
+          var url = "/api/games/" + $scope.activeUser;
+          $scope.jeux = [];
+         $http({
                 method: 'GET',
-                url: '/api/',
-                data:{
-                  username: "",
-                  passOne: passOne,
-                  passTwo: passTwo
-                }
+                url: url,
               }).then(function successCallback(response) { //Success connection
-                    $scope.alertMessage = response.data.message;;
-                    $location.path("/");
+                    var i = 0;
+                    $scope.datas = response.data;
+                    while(i<$scope.datas.length){
+
+                        $scope.jeux[i] = $scope.datas[i].nomjeu;
+
+
+                        i++;
+                    }
                 }, function errorCallback(response) {
-                    $scope.alertMessage = "/!\\ " + response.data.message;
-                    $location.path("/");
+
                 });
 
-*/
+
 }]);
+
+app.controller('GamesCtrl',['$scope', '$http','$window',  '$location',
+        function($scope, $http, $window, $location){
+
+          $scope.jeux = [];
+          $http({
+                 method: 'GET',
+                 url: '/api/games',
+               }).then(function successCallback(response) { //Success connection
+                     var i = 0;
+                     $scope.datas = response.data;
+                     while(i<$scope.datas.length){
+
+                         $scope.jeux[i] = $scope.datas[i].nomjeu;
+
+
+                         i++;
+                     }
+                 }, function errorCallback(response) {
+
+                 });
+
+
+        }]);

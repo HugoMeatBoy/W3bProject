@@ -32,19 +32,25 @@ app.config(function($routeProvider, $httpProvider) {
     permission: {
       login: false
     }
-  }).when('/api/home', {
+  }).when('/home', {
     templateUrl: 'views/home.html',
     controller: 'UserCtrl',
     permission: {
       login: true
     }
-  }).when('/api/speedrun', {
+  }).when('/games', {
+    templateUrl: 'views/games.html',
+    controller: 'GamesCtrl',
+    permission: {
+      login: true
+    }
+  }).when('/speedrun', {
     templateUrl: 'views/speedrun.html',
     controller: 'SpeedRunCtrl',
     permission: {
       login: true
     }
-  }).when('/api/datas', {
+  }).when('/datas', {
     templateUrl: 'views/stats.html',
     controller: 'SpeedRunCtrl',
     permission: {
@@ -75,7 +81,7 @@ app.run(function($rootScope, $window, $location, TokenFact) {
     }
 
     if (TokenFact.log == true && $location.path() == '/') {
-      $location.path('/api/home');
+      $location.path('/home');
     }
   });
 
@@ -132,3 +138,5 @@ app.directive("header", function() {
       return false;
     }*/
   //};
+
+app.constant("LINK","localhost:3000/") ;

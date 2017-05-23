@@ -33,6 +33,8 @@ app.factory('LoginFact', function($http) {
 
 });
 
+
+
 app.factory('RegistrationFact', function($http) {
    var registrationFactory = {};
 

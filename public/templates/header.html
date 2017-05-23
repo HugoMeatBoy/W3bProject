@@ -1,24 +1,9 @@
-<!--
-<div>
-<table>
-  <th style="width:250px">
-    <img src="./images/logo2.png" class="responsive-img"/>
-  </th>
-  <th>
-    <a>Ok</a>
-    <button id="LogoutBut" class="btn waves-effect waves-light" type="button" ng-click="logout()">OUT</button>
 
-  </th>
-  <th>
-      </th>
-</table>
-</div>
--->
 <nav id="navigationBar">
      <img src="./images/logo2.png" class="responsive-img" height="60px"/>
      <ul class="right hide-on-med-and-down">
-       <li><a href="">Dashboard</a></li>
-       <li><a href="">Games</a></li>
+       <li><a ng-click="goHome()">Dashboard</a></li>
+       <li><a ng-click="goGames()">Games</a></li>
        <li><a id="LogoutBut" ng-click="logout()">Log Out</a></li>
      </ul>
  </nav>

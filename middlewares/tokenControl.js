@@ -4,16 +4,15 @@ var data = process.env.ENCODING_KEY;
 
 module.exports = function(req, res, next) {
 
-  var token = req.headers['x-access-token'];
+  var token = (req.body && req.body.access_token) || (req.query && req.query.access_token) || req.headers['x-access-token'];;
 
-
-    if (!token) {
+    if (token !== "") {
      try {
 
          var decoded = jwt.decode(token, data);
 
          console.log(decoded);
-/*
+
          if (decoded.exp <= Date.now()) {
            res.status(400);
            res.json({
@@ -22,14 +21,9 @@ module.exports = function(req, res, next) {
            });
            return;
          }else{
-           res.status(200);
-           res.json({
-             "status": 200,
-             "message": "Your Okay"
-           });
-           return;
+           next();
          }
-*/
+
   } catch (err) {
       res.status(500);
       res.json({
@@ -42,7 +36,7 @@ module.exports = function(req, res, next) {
     res.status(401);
     res.json({
       "status": 401,
-      "message": "Invalid Token or Key"
+      "message": "Invalid Token"
     });
     return;
   }

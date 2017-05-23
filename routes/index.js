@@ -22,11 +22,12 @@ router.post('/api/user/:idU/speedrun/:idS/submit', speedrun.postRun);
 
 router.post('/api/games/:idG/speedrun/:idS/newSplits', speedrun.addSplits);
 
-router.get('/api/games', games.getAllGames);
+
 router.get('/api/game/:idG', games.getGame);
 router.post('/api/game/:idG', games.addGame);
 */
-
+router.get('/api/games/:id', games.getUserGames);
+router.get('/api/games', games.getAllGames);
 
 
 

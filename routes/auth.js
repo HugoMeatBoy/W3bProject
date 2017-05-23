@@ -1,5 +1,5 @@
 var jwt = require('jwt-simple');
-var pg = require('pg');
+var bd = require('./bdConnections.js');
 var CryptoJS = require("crypto-js");
 
 
@@ -22,7 +22,7 @@ var auth = {
 
        var passwordCrypt = CryptoJS.HmacSHA1(password, krypt);
 
-       auth.authentication(user,passwordCrypt,function(results){
+       bd.authentication(user,passwordCrypt,function(results){
 
 
           if (!results || results == "") {
@@ -45,10 +45,8 @@ var auth = {
             }
             else {
               if (results) {
-                var d = new Date();
-                var time = d.getTime();
                 res.status(200);
-                res.json(genToken(results.idme,time));
+                res.json(genToken(results.idMembre,results.pseudoMembre));
               }
             }
           }
@@ -65,31 +63,7 @@ var auth = {
 
   },//login()
 
-  authentication: function(user,password,callback){
-    pg.connect(conString, function(err, client, done) {
-       if(err) {
-         return console.error('error fetching client from pool', err);
 
-       }
-
-
-       var sql = "SELECT * FROM membre WHERE pseudoMembre=\'"+ user +"\' AND passwordMembre = \'"+password+"\';";
-
-       client.query(sql,  function(err, result) {
-         //call `done()` to release the client back to the pool
-         done();
-
-         if(err) {
-           callback("errorDB");
-           return;
-         }else {
-
-           callback(result.rows);
-           return;
-        }
-       });
-    });
-  },//authentication()
 
 
 
@@ -107,7 +81,7 @@ var auth = {
 
         var passwordCrypt = CryptoJS.HmacSHA1(passwordOne, krypt);
 
-        auth.registration(user, passwordCrypt, function(results){
+        bd.registration(user, passwordCrypt, function(results){
             if (!results || results == "") {
               res.status(401);
               res.json({
@@ -147,32 +121,7 @@ var auth = {
 
   },
 
-  registration: function(user,passwordCry,callback){
-    pg.connect(conString, function(err, client, done) {
-       if(err) {
-         return console.error('error fetching client from pool', err);
 
-       }
-
-
-       var sql = "INSERT INTO membre VALUES(4,\'"+user+"\',\'"+passwordCry+"\');";
-
-       client.query(sql,  function(err, result) {
-         //call `done()` to release the client back to the pool
-         done();
-
-         if(err) {
-           console.log(err);
-           callback("errorDB");
-           return;
-         }else {
-
-           callback("OK");
-           return;
-        }
-       });
-    });
-  },
 
 
   getUser: function(req,res){},
