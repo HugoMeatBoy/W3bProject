@@ -11,8 +11,6 @@ module.exports = function(req, res, next) {
 
          var decoded = jwt.decode(token, data);
 
-         console.log(decoded);
-
          if (decoded.exp <= Date.now()) {
            res.status(400);
            res.json({
@@ -21,14 +19,14 @@ module.exports = function(req, res, next) {
            });
            return;
          }else{
-           next();
+           next();//Success
          }
 
   } catch (err) {
       res.status(500);
       res.json({
         "status": 500,
-        "message": "Oops something went wrong",
+        "message": "Something went wrong",
         "error": err
       });
     }

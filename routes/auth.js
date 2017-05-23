@@ -46,7 +46,7 @@ var auth = {
             else {
               if (results) {
                 res.status(200);
-                res.json(genToken(results.idMembre,results.pseudoMembre));
+                res.json(genToken(results[0].idmembre,results[0].pseudomembre));
               }
             }
           }
@@ -137,7 +137,7 @@ var auth = {
 
 
 
-function genToken(user) {
+function genToken(id,user) {
   var expires = expiresIn(1); // 1 day
   var token = jwt.encode({
     user: user,
@@ -145,9 +145,10 @@ function genToken(user) {
   },key);
 
   return {
+    id: id,
+    user: user,
     token: token,
-    expires: expires,
-    user: user
+    expires: expires
   };
 }
 

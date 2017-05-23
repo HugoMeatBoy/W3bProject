@@ -32,32 +32,36 @@ var games = {
   },
 
   getUserGames: function(req,res,callback){
-    bd.getGames(function(results){
 
-      if (!results || results == "") {
-        res.status(200);
-        res.json({
-          "status": 200,
-          "message": "No games founds"
-        });
-        return;
-      }else{
-        if(results=="errorDB"){
-          res.status(501);
+    var user = req.params.id;
+    if(user != ""){
+      bd.userGames(user,function(results){
+
+        if (!results || results == "") {
+          res.status(200);
           res.json({
-            "status": 501,
-            "message": "Error on database"
+            "status": 200,
+            "message": "No games founds"
           });
           return;
-       }
-       else {
-          if(results){
-            res.status(200);
-            res.json(results);
+        }else{
+          if(results=="errorDB"){
+            res.status(501);
+            res.json({
+              "status": 501,
+              "message": "Error on database"
+            });
+            return;
+         }
+         else {
+            if(results){
+              res.status(200);
+              res.json(results);
+            }
           }
         }
-      }
-    });
+      });
+    }
   },
 
   getGame: function(req,res){},

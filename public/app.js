@@ -63,21 +63,13 @@ app.config(function($routeProvider, $httpProvider) {
 
 app.run(function($rootScope, $window, $location, TokenFact) {
 
-  // when the page refreshes, check if the user is already logged in
+  // when the page changes, check if the user is already logged in
   TokenFact.checkLog();
   $rootScope.$on("$routeChangeSuccess", function(event, nextRoute, currentRoute) {
     if ((nextRoute.permission && nextRoute.permission.login) && !TokenFact.log) {
-
-
       $location.path("/");
-
-
     } else {
-
-      // check if user object exists else fetch it. This is incase of a page refresh
-    //  DisplayCtrl.isLogged();
       if (!TokenFact.user) TokenFact.user = $window.sessionStorage.user;
-
     }
 
     if (TokenFact.log == true && $location.path() == '/') {
@@ -85,30 +77,7 @@ app.run(function($rootScope, $window, $location, TokenFact) {
     }
   });
 
-/*
-  $rootScope.$on('$routeChangeSuccess', function(event, nextRoute, currentRoute) {
-    $rootScope.showMenu = AuthenticationFactory.isLogged;
-    // if the user is already logged in, take him to the home page
-    if (AuthenticationFactory.isLogged == true && $location.path() == '/login') {
-      $location.path('/');
-    }
-    if(AuthenticationFactory.isLogged)
-    {
-      GetProfil.getProf().then(function(data) {
-        if(data.data.data.attribute.role=="admin")
-        {
-          $rootScope.admin=true;
-        }
-        else {
-          $rootScope.admin=false;
-        }
-
-      });
-    }
-    else {
-      $rootScope.admin=false;
-    }
-*/  });
+});
 
 
 /***********************/
@@ -126,17 +95,5 @@ app.directive("header", function() {
   };
 });
 
-
-/*  $scope.isLogged = function() {
-
-    console.log("ok");
-    if($window.sessionStorage.token){
-      console.log("TROU");
-      return true;
-    }else{
-      console.log("AHAH");
-      return false;
-    }*/
-  //};
 
 app.constant("LINK","localhost:3000/") ;

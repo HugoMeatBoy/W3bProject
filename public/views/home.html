@@ -6,12 +6,12 @@
   <table  ng-repeat="jeux in datas">
     <tr>
       <th colspan="2">
-        Game {{datas}}
+        Game {{jeux.nomjeu || 'No games found'}}
       </th>
     </tr>
     <tr>
       <td style="width:70%" class="gameCat">
-        Categorie {{jeux.nomjeu}}
+        Categorie {{jeux.descriptionjeu}}
       </td>
 
       <td>

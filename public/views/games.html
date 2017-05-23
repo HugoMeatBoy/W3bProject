@@ -1,12 +1,12 @@
 <table  ng-repeat="jeux in datas">
   <tr>
     <th colspan="2">
-      {{datas}}
+      {{jeux.nomjeu}}
     </th>
   </tr>
-  <tr>
+  <tr  ng-repeat="nomcategorie in jeux">
     <td style="width:70%" class="gameCat">
-      Categorie {{jeux.nomjeu}}
+      Categorie {{jeux.nomcategorie}}
     </td>
 
     <td>

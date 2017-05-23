@@ -20,6 +20,8 @@ app.controller('DisplayCtrl', ['$scope','$window', '$location', 'TokenFact', fun
     $scope.logout = function() {
       if (TokenFact.log) {
         TokenFact.log = false;
+        delete $window.sessionStorage.id;
+        delete $window.sessionStorage.user;
         delete $window.sessionStorage.token;
         delete $window.sessionStorage.com;
       }
@@ -58,6 +60,8 @@ app.controller('LoginCtrl', ['$scope', '$http','$window',  '$location', 'TokenFa
              LoginFact.userLogin(username,password).then(function successCallback(response) { //Success connection
                           TokenFact.log = true;
                           $window.sessionStorage.token = response.data.token;
+                          $window.sessionStorage.id = response.data.id;
+                          console.log($window.sessionStorage.id);
                           $window.sessionStorage.user = username;
                           $scope.alertMessage = "";
                           $location.path("/home");
@@ -120,21 +124,19 @@ app.controller('UserCtrl',['$scope', '$http','$window',  '$location',
         function($scope, $http, $window, $location){
           $scope.activeUser =  $window.sessionStorage.user;
 
-          var url = "/api/games/" + $scope.activeUser;
+
+
+          var url = "/api/games/" + $window.sessionStorage.id;
+
+
           $scope.jeux = [];
-         $http({
+          $http({
                 method: 'GET',
                 url: url,
               }).then(function successCallback(response) { //Success connection
                     var i = 0;
                     $scope.datas = response.data;
-                    while(i<$scope.datas.length){
 
-                        $scope.jeux[i] = $scope.datas[i].nomjeu;
-
-
-                        i++;
-                    }
                 }, function errorCallback(response) {
 
                 });
@@ -152,6 +154,7 @@ app.controller('GamesCtrl',['$scope', '$http','$window',  '$location',
                }).then(function successCallback(response) { //Success connection
                      var i = 0;
                      $scope.datas = response.data;
+                     console.log($scope.datas);
                      while(i<$scope.datas.length){
 
                          $scope.jeux[i] = $scope.datas[i].nomjeu;

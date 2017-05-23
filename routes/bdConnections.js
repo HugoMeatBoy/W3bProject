@@ -68,12 +68,13 @@ var bd = {
          }
 
 
-         var sql = "SELECT * FROM jeu;";
+         var sql = "SELECT DISTINCT ON (jeu.idjeu) jeu.idjeu, nomjeu, nomcategorie FROM jeu,categorie WHERE jeu.idjeu=categorie.idjeu ORDER BY jeu.idjeu, nomjeu;";
          console.log(sql);
          client.query(sql,  function(err, result) {
            done();
 
            if(err) {
+             console.log(err);
              callback("errorDB");
              return;
            }else {
@@ -83,7 +84,33 @@ var bd = {
           }
          });
     });
-  }
+  }, //getGames()
+
+  userGames: function(user,callback){
+    pg.connect(conString, function(err, client, done) {
+       if(err) {
+         return console.error('error fetching client from pool', err);
+
+       }
+
+
+       var sql = "SELECT * FROM jeu,jeuspeedrun WHERE jeu.idJeu = jeuspeedrun.idJeu AND idmembre="+ user +";";
+       console.log(sql);
+       client.query(sql,  function(err, result) {
+         done();
+
+         if(err) {
+           callback("errorDB");
+           return;
+         }else {
+           console.log(result.rows);
+           callback(result.rows);
+           return;
+        }
+       });
+  });
+} //getGames()
+
 }
 
 module.exports = bd;
