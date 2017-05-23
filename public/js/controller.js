@@ -42,11 +42,9 @@ app.controller('LoginCtrl', ['$scope', '$http','$window',  '$location', 'TokenFa
 
           $scope.login = function() {
 
-            console.log($scope.activeUser);
             username = $scope.user;
             password = $scope.password;
 
-            console.log(username + password);
            if (username !== undefined && password !== undefined) {
 
 
@@ -61,10 +59,8 @@ app.controller('LoginCtrl', ['$scope', '$http','$window',  '$location', 'TokenFa
                           TokenFact.log = true;
                           $window.sessionStorage.token = response.data.token;
                           $window.sessionStorage.user = username;
-
-
                           $scope.alertMessage = "";
-                          $location.path("/home");
+                          $location.path("/api/home");
                       }, function errorCallback(response) {
                           $scope.alertMessage = "/!\\ " + response.data.message;
                           $location.path("/");
@@ -80,6 +76,47 @@ app.controller('LoginCtrl', ['$scope', '$http','$window',  '$location', 'TokenFa
           };
         };
 
+        $scope.signUp = function() {
+
+          userSignup = $scope.username;
+          passOne = $scope.passwordOne;
+          passTwo = $scope.passwordTwo;
+          $scope.username = "";
+          $scope.passwordOne = "";
+          $scope.passwordTwo = "";
+
+
+         if (userSignup !== undefined && passOne !== undefined && passTwo !== undefined) {
+           if(passOne==passTwo){
+
+              $http({
+                    method: 'POST',
+                    url: '/registration',
+                    data:{
+                      username: userSignup,
+                      passOne: passOne,
+                      passTwo: passTwo
+                    }
+                  }).then(function successCallback(response) { //Success connection
+                        $scope.alertMessage = response.data.message;;
+                        $location.path("/");
+                    }, function errorCallback(response) {
+                        $scope.alertMessage = "/!\\ " + response.data.message;
+                        $location.path("/");
+                    });
+              }else{
+                  $scope.alertMessage = "/!\\ Error on validating password";
+              }
+
+
+            //};
+        }else{
+          $scope.alertMessage = "/!\\  Missing inputs for registration";
+          $location.path("/");
+
+        };
+
+      };
 
 
 }]);

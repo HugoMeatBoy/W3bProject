@@ -26,27 +26,27 @@ app.factory('TokenInterceptor', function($q, $window) {
 app.config(function($routeProvider, $httpProvider) {
   $httpProvider.interceptors.push('TokenInterceptor');
   $routeProvider
-  .when('/signup', {
-    templateUrl: 'views/signIn.html',
-    controller: 'LoginCtrl',
-    permission: {
-      login: false
-    }
-  }).when('/', {
+  .when('/', {
     templateUrl: 'views/login.html',
     controller: 'LoginCtrl',
     permission: {
       login: false
     }
-  }).when('/home', {
+  }).when('/api/home', {
     templateUrl: 'views/home.html',
     controller: 'UserCtrl',
     permission: {
       login: true
     }
-  }).when('/user/:id', {
-    templateUrl: '',
-    controller: '',
+  }).when('/api/speedrun', {
+    templateUrl: 'views/speedrun.html',
+    controller: 'SpeedRunCtrl',
+    permission: {
+      login: true
+    }
+  }).when('/api/datas', {
+    templateUrl: 'views/stats.html',
+    controller: 'SpeedRunCtrl',
     permission: {
       login: true
     }
@@ -75,7 +75,7 @@ app.run(function($rootScope, $window, $location, TokenFact) {
     }
 
     if (TokenFact.log == true && $location.path() == '/') {
-      $location.path('/home');
+      $location.path('/api/home');
     }
   });
 

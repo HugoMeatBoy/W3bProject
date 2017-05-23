@@ -8,6 +8,8 @@
   var ejs = require('ejs');
   //var helmet = require('helmet')
   require('dotenv').load();
+  var CryptoJS = require("crypto-js");
+
 
 
   var app  = express();
@@ -44,6 +46,7 @@
       }
     });
 
+  
 
     app.all('/api/*', [require('./middlewares/tokenControl.js')]);
 

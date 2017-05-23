@@ -6,6 +6,8 @@ body{
   padding-top: 2%;
   padding-left: 12%;
   padding-right:12%;
+  padding-bottom: 2%;
+
 
 
 }
@@ -14,6 +16,7 @@ body{
 #bodyScale{
 
   background-color: #C5C5C5;
+  padding-bottom: 3%;
 
 }
 
@@ -137,4 +140,34 @@ label{
 #LogoutBut{
   height: 60px;
   background-color: #FF4444;
+}
+
+
+/**** HOME ****/
+
+#titleHome{
+  text-align: center;
+  font-family: "Tw Cen MT", sans-serif;
+  background-color: #CD2828;
+}
+
+#userGames{
+  background-color: #CDCDCD;
+  margin-left: 6%;
+  margin-right: 6%;
+  margin-top:4%;
+  margin-bottom: 4%;
+}
+
+#addGame{
+  background-color: #606060;
+  margin-left: 6%;
+  margin-right: 6%;
+  margin-top:4%;
+  margin-bottom: 4%;
+}
+
+.gameCat{
+    position:relative;
+    left: 5%;
 }

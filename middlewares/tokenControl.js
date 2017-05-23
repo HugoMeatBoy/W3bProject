@@ -8,20 +8,12 @@ module.exports = function(req, res, next) {
 
 
     if (!token) {
-      res.status(401);
-      res.json({
-        "status": 401,
-        "message": "No I"
-      });
-      return;
-    }
-
-/*       try {
+     try {
 
          var decoded = jwt.decode(token, data);
 
-
-
+         console.log(decoded);
+/*
          if (decoded.exp <= Date.now()) {
            res.status(400);
            res.json({
@@ -37,7 +29,7 @@ module.exports = function(req, res, next) {
            });
            return;
          }
-
+*/
   } catch (err) {
       res.status(500);
       res.json({
@@ -53,6 +45,6 @@ module.exports = function(req, res, next) {
       "message": "Invalid Token or Key"
     });
     return;
-  }*/
+  }
 
 }
