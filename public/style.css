@@ -98,20 +98,20 @@ label{
 
 
 *::-webkit-input-placeholder { /* Chrome */
-    color: #EEEEEE;
-    opacity: 0.5;
+    color: #FBFBFB;
+    opacity: 0.7;
 }
 *:-moz-placeholder { /* FF 4-18 */
-    color: #EEEEEE;
-    opacity: 0.5;
+    color: #FBFBFB;
+    opacity: 0.7;
 }
 *::-moz-placeholder { /*FF 18+*/
-    color: #EEEEEE;
-    opacity: 0.5;
+    color: #FBFBFB;
+    opacity: 0.7;
 }
 *:-ms-input-placeholder { /* IE-EDGE */
-    color: #EEEEEE;
-    opacity: 0.5;
+    color: #FBFBFB;
+    opacity: 0.7;
 }
 
 .alert{
@@ -128,7 +128,7 @@ label{
 #navigationBar {
 
   height:60px;
-  font-weight: bold;
+  font-weight:400 ;
   color: #A8A8A8;
   background-color: #848484;
   text-transform: uppercase;
@@ -162,34 +162,93 @@ label{
   margin-bottom: 4%;
 }
 
-#adding{
-  width: 40%;
-  background-color: #606060;
-  margin-left: 6%;
-  margin-right: 6%;
-  margin-top:4%;
-  margin-bottom: 4%;
-  padding: 10%;
+#userGames h4{
+    text-align: center;
+    color: #AD5555;
+    font-family: 'Courier New', sans-serif;
+}
+
+
+
+/*** GAMES ***/
+
+#games{
+  background-color: #FBFBFB;
+  padding:5%;
 }
 
 .gameCat{
     position:relative;
-    left: 5%;
+    left:5%;
 }
 
-#userGames h4{
-    color: #222222;
+#adding{
+
+}
+
+#indexForm{
+  width: 70%;
+  margin:4%;
+  padding:10%;
+  background-color:#771111;
+  position: relative;
+  left: 10%;
+}
+
+
+
+#adding h3{
+    text-align: center;
+    color: #FF3333;
+    font-family: 'Courier New', sans-serif;
+}
+
+#adding h6{
+    color: #AD5555;
     font-style: italic;
     font-weight: lighter;
+    position: relative;
+    left: 10%;
 }
 
-#addGame{}
+#adding input:focus {
+    border-bottom: 1px solid #444444 !important ;
+    box-shadow: 0 1px 0 0 #A84444 !important;
+}
+
+/* buttons */
 
 #addGamebtn{
   font-size: 15px;
   font-style: italic;
+  background-color: #FFDDDD;
+  color: black;
+  position: relative;
+  left:55%;
+}
+
+
+#gameFormbtn{
+  background-color: #EE6666;
+  position: relative;
+  left:17%;
+
+}
+#catFormbtn{
   background-color: #CD4444;
   position: relative;
-  left:70%;
+  left:20%;
+}
 
+
+
+#indexGames{
+  width:15%;
+  background-color: #333333;
+  text-align: right;
+  opacity: 0.5;
+  color:#EEEEEE;
+  font-family: "Tw Cen MT", sans-serif;
+  font-size: 22px;
+  font-weight: 100;
 }

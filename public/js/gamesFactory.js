@@ -1,7 +1,7 @@
 app.factory('GamesFact', function($http) {
   var gamesFactory = {};
 
-  gamesFactory.addGame = function(name,type,desc){
+  gamesFactory.newGame = function(name,type,desc){
     return $http({
            method: 'POST',
            url: '/api/newgame',
@@ -12,6 +12,34 @@ app.factory('GamesFact', function($http) {
            }
          });
       }
+
+   gamesFactory.newCategory = function(nameGame,nameCat,desc){
+     var url = "/api/"+nameGame+"/newcategory";
+
+     return $http({
+            method: 'POST',
+            url: url,
+            data:{
+              nameC: nameCat,
+              desc: desc
+            }
+          });
+       }
+
+    gamesFactory.newUserGame = function(cat,user,game){
+
+      var url = "/api/"+user+"/newgame";
+
+      return $http({
+             method: 'POST',
+             url: url,
+             data:{
+              categorie: cat,
+              game: game
+             }
+           });
+        }
+
 
     return gamesFactory;
 });

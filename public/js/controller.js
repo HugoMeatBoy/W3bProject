@@ -160,25 +160,33 @@ app.controller('UserCtrl',['$scope', '$http','$window',  '$location',
 app.controller('GamesCtrl',['$scope','$http','$window',  '$location','GamesFact',
         function($scope, $http, $window, $location,GamesFact){
 
-          this.act = 1;
+          $scope.act = 1;
           $scope.messageAdd = "New Game";
 
           $scope.jeux = [];
           $http({
                  method: 'GET',
-                 url: '/api/games',
+                 url: '/api/gamesRun',
                }).then(function successCallback(response) { //Success connection
+
                      $scope.datas = response.data;
-
-
                  }, function errorCallback(response) {
 
                  });
 
+         $http({
+                method: 'GET',
+                url: '/api/games',
+              }).then(function successCallback(response) { //Success connection
+                    $scope.games = response.data;
+                }, function errorCallback(response) {
+                });
+
+
+
 
 
             $scope.addGame = function(){
-              console.log("YOLO");
               nameGame = $scope.namegame;
               typeGame = $scope.typegame;
               descGame = $scope.descgame;
@@ -188,10 +196,42 @@ app.controller('GamesCtrl',['$scope','$http','$window',  '$location','GamesFact'
 
               if(nameGame != undefined && typeGame != undefined)
 
-              GamesFact.addGame(nameGame,typeGame,descGame).then(function successCallback(response) {
+              GamesFact.newGame(nameGame,typeGame,descGame).then(function successCallback(response) {
+                $location.path("/games");
+              });
+            }
+
+
+
+
+            $scope.addCategory = function(){
+              Game = $scope.game;
+              nameCat = $scope.namecat;
+              desCat = $scope.descat;
+              $scope.game = "";
+              $scope.namecat = "";
+              $scope.descat = "";
+
+              if(Game != undefined && nameCat != undefined)
+
+              GamesFact.newCategory(Game,nameCat,desCat).then(function successCallback(response) {
                 console.log(response.data.status);
                 $location.path("/games");
               });
+            }
+
+
+
+            $scope.addUserGame = function(cat,game){
+
+              var user = $window.sessionStorage.id;
+              if(cat != undefined && user != undefined  && game != undefined){
+                GamesFact.newUserGame(cat,user,game).then(function successCallback(response) {
+                  $location.path("/home");
+                });
+
+              }
+
             }
 
 
@@ -201,7 +241,7 @@ app.controller('GamesCtrl',['$scope','$http','$window',  '$location','GamesFact'
 
 
             $scope.active = function(tab){
-                  if(this.act == tab){
+                  if($scope.act == tab){
                     return true;
                   }else{
                     return false;
@@ -209,9 +249,12 @@ app.controller('GamesCtrl',['$scope','$http','$window',  '$location','GamesFact'
               }
 
             $scope.activate = function(tab){
-                this.act = tab;
+                $scope.act = tab;
                 if(tab==1){$scope.messageAdd = "New Game"}
-                else{$scope.messageAdd = "New Category \n Game must exists yet"}
+                else{
+                  $scope.messageAdd = "New Category";
+                  $scope.messageAddCat="Game must exists yet";
+              }
             }
 
 

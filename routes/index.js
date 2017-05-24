@@ -25,9 +25,12 @@ router.post('/api/games/:idG/speedrun/:idS/newSplits', speedrun.addSplits);
 
 router.get('/api/game/:idG', games.getGame);
 */
+router.post('/api/:id/newgame',games.addUserGame);
+router.post('/api/:nameGame/newcategory', games.addCategory);
 router.post('/api/newgame', games.addGame);
 
 router.get('/api/games/:id', games.getUserGames);
+router.get('/api/gamesRun', games.getRunnedGames);
 router.get('/api/games', games.getAllGames);
 
 

@@ -1,4 +1,4 @@
-<table ng-repeat="jeux in datas">
+<table>
   <tr>
     <th>
       Game
@@ -13,7 +13,7 @@
       Speedrun
     </th>
   </tr>
-  <tr >
+  <tr  id="games" ng-repeat="jeux in datas">
     <td class="gameCat">
       {{jeux.nomjeu}}
     </td>
@@ -24,39 +24,58 @@
       {{jeux.finalTime}}
     </td>
     <td>
-      <a ng-click="goSpeedrun()">GO</a>
+      <i ng-click="addUserGame(jeux.nomcategorie,jeux.nomjeu)" class="fa fa-plus-circle" aria-hidden="true"></i>
+      <img src="./images/joystick.png"/>
     </td>
   </tr>
 </table>
 
 
-<button ng-click="activate(1)">ADD JEU</button>
 
-<button ng-click="activate(2)">ADD CATEGORY</button>
 
-<div id="adding">
-  <h3>{{messageAdd}}</h4>
-  <form id="addGameform" ng-show="active(1)">
 
-      <input placeholder="New Game" type="text" name="namegame" ng-model="namegame" required>
+<table id="adding">
 
-      <input placeholder="Game type" type="text" name="typegame" ng-model="typegame" required>
+  <tr>
+    <th >
+      <div id="indexForm">
+        <button id="gameFormbtn" class="btn waves-effect" ng-click="activate(1)">NEW GAME</button>
+        <button id="catFormbtn" class="btn waves-effect" ng-click="activate(2)">NEW CATEGORY</button>
+        <form  ng-show="active(1)">
+          <br/>
+          <h3>{{messageAdd}}</h3>
+          <br/>
 
-      <input placeholder="Description" type="text" name="descgame" ng-model="descgame">
+            <input placeholder="New Game" type="text" name="namegame" ng-model="namegame" required>
 
-      <button id="addGamebtn" type="button" class="btn waves-effect waves-light" ng-click="addGame()">Add Game</button>
+            <input placeholder="Game type" type="text" name="typegame" ng-model="typegame" required>
 
-    </form>
+            <input placeholder="Description" type="text" name="descgame" ng-model="descgame">
 
-    <form id="addCatform" ng-show="active(2)">
+            <button id="addGamebtn" type="button" class="btn waves-effect waves-light" ng-click="addGame()">Add Game</button>
 
-      <input placeholder="Game name" type="text" name="game" ng-model="game" required>
+          </form>
 
-      <input placeholder="New category" type="text" name="namecat" ng-model="namecat" required>
+          <form ng-show="active(2)">
+            <br/>
+            <h3>{{messageAdd}}</h3>
+            <h6>{{messageAddCat}}</h6>
+            <br/>
+            <input placeholder="Game name" type="text" name="game" ng-model="game" required>
 
-      <input placeholder="Description/ Advices" type="text" name="descat" ng-model="descat">
+            <input placeholder="New category" type="text" name="namecat" ng-model="namecat" required>
 
-    </form>
+            <input placeholder="Description/ Advices" type="text" name="descat" ng-model="descat">
 
-  </form>
-</div>
+          <button id="addGamebtn" type="button" class="btn waves-effect waves-light" ng-click="addCategory()">Add Category</button>
+
+          </form>
+
+    </th>
+    <th id="indexGames">
+          <ul ng-repeat="jeux in games">
+            <li>{{jeux.nomjeu}}</li>
+          </ul>
+    </th>
+  </tr>
+</table>

@@ -25,7 +25,7 @@ var games = {
         }
       }
     });
-  },
+  },//getALlGames()
 
   getUserGames: function(req,res,callback){
 
@@ -54,8 +54,39 @@ var games = {
         }
       });
     }
-  },
+  },//getUserGames()
 
+  addUserGame: function(req,res,callback){
+
+    var user = req.params.id;
+    var cat = req.body.categorie;
+    var game = req.body.game;
+    
+    if(user != "" && cat != "" && game != ""){
+      bd.newUserGame(user,cat,game,function(results){
+
+        if (!results || results == "") {
+          res.status(200);
+          res.json({
+            "status": 200,
+            "message": "No games founds"
+          });
+          return;
+        }else{
+          if(results=="errorDB"){
+            bd.errorDB();
+         }
+         else {
+            if(results){
+              res.status(200);
+              res.json(results);
+              return;
+            }
+          }
+        }
+      });
+    }
+  },//getUserGames()
 
 
   addGame: function(req,res,callback){
@@ -67,15 +98,12 @@ var games = {
       if(descGame == ""){
         descGame = "NULL";
       }
-      console.log("ok1");
       bd.newGame(nameGame,typeGame,descGame,function(results){
-        console.log("ok2");
         if(results=="errorDB"){
           bd.errorDB();
         }
         else {
             if(results){
-              console.log("ok3");
               res.status(201);
               return;
             }
@@ -91,9 +119,68 @@ var games = {
       return;
     }
 
-  },
-  getGame: function(req,res){}
+  },//addGame()
 
+
+
+    addCategory: function(req,res,callback){
+        var nameGame = req.params.nameGame;
+        var nameCat = req.body.nameC;
+        var descCat = req.body.desc;
+
+        if(nameGame != "" && nameCat != ""){
+          if(descCat == ""){
+            descCat = "NULL";
+          }
+          bd.newCategory(nameGame,nameCat,descCat,function(results){
+            if(results=="errorDB"){
+              bd.errorDB();
+            }
+            else {
+                if(results){
+                  res.status(201);
+                  return;
+                }
+            }
+          })
+
+        }else{
+          res.status(400);
+          res.json({
+            "status": 400,
+            "message": "Invalid inputs"
+          });
+          return;
+        }
+
+      },
+
+  getRunnedGames:function(req,res,callback){
+
+    bd.getRunGames(function(results){
+
+      if (!results || results == "") {
+        res.status(200);
+        res.json({
+          "status": 200,
+          "message": "No games founds"
+        });
+        return;
+      }else{
+        if(results=="errorDB"){
+
+          bd.errorDB();
+       }
+       else {
+          if(results){
+            res.status(200);
+            res.json(results);
+            return;
+          }
+        }
+      }
+    });
+  },//getRunnedGames()
 
 }
 
