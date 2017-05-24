@@ -54,6 +54,8 @@ app.controller('LoginCtrl', ['$scope', '$http','$window',  '$location', 'TokenFa
 
             username = $scope.user;
             password = $scope.password;
+            $scope.user = "";
+            $scope.password = "";
 
            if (username !== undefined && password !== undefined) {
 
@@ -61,7 +63,6 @@ app.controller('LoginCtrl', ['$scope', '$http','$window',  '$location', 'TokenFa
                           TokenFact.log = true;
                           $window.sessionStorage.token = response.data.token;
                           $window.sessionStorage.id = response.data.id;
-                          console.log($window.sessionStorage.id);
                           $window.sessionStorage.user = username;
                           $scope.alertMessage = "";
                           $location.path("/home");
@@ -71,8 +72,6 @@ app.controller('LoginCtrl', ['$scope', '$http','$window',  '$location', 'TokenFa
                       });
 
 
-
-              //};
           }else{
             $scope.alertMessage = "Missing id or password";
             $location.path("/");
@@ -128,43 +127,93 @@ app.controller('UserCtrl',['$scope', '$http','$window',  '$location',
 
           var url = "/api/games/" + $window.sessionStorage.id;
 
-
+          $scope.message;
           $scope.jeux = [];
           $http({
                 method: 'GET',
                 url: url,
               }).then(function successCallback(response) { //Success connection
-                    var i = 0;
-                    $scope.datas = response.data;
+
+
+                      $scope.message = response.data.message;
+                      $scope.datas = response.data;
+
 
                 }, function errorCallback(response) {
 
                 });
 
+        $scope.active = function(){
+            if($scope.message == "No games founds"){
+              $scope.messageAlert = "Look on games to start a speedrun or add a new game !"
+              return true;
+            }else{
+              return false;
+            }
+        }
+
 
 }]);
 
-app.controller('GamesCtrl',['$scope', '$http','$window',  '$location',
-        function($scope, $http, $window, $location){
+
+
+app.controller('GamesCtrl',['$scope','$http','$window',  '$location','GamesFact',
+        function($scope, $http, $window, $location,GamesFact){
+
+          this.act = 1;
+          $scope.messageAdd = "New Game";
 
           $scope.jeux = [];
           $http({
                  method: 'GET',
                  url: '/api/games',
                }).then(function successCallback(response) { //Success connection
-                     var i = 0;
                      $scope.datas = response.data;
-                     console.log($scope.datas);
-                     while(i<$scope.datas.length){
-
-                         $scope.jeux[i] = $scope.datas[i].nomjeu;
 
 
-                         i++;
-                     }
                  }, function errorCallback(response) {
 
                  });
+
+
+
+            $scope.addGame = function(){
+              console.log("YOLO");
+              nameGame = $scope.namegame;
+              typeGame = $scope.typegame;
+              descGame = $scope.descgame;
+              $scope.namegame = "";
+              $scope.typegame = "";
+              $scope.descgame = "";
+
+              if(nameGame != undefined && typeGame != undefined)
+
+              GamesFact.addGame(nameGame,typeGame,descGame).then(function successCallback(response) {
+                console.log(response.data.status);
+                $location.path("/games");
+              });
+            }
+
+
+
+
+
+
+
+            $scope.active = function(tab){
+                  if(this.act == tab){
+                    return true;
+                  }else{
+                    return false;
+                  }
+              }
+
+            $scope.activate = function(tab){
+                this.act = tab;
+                if(tab==1){$scope.messageAdd = "New Game"}
+                else{$scope.messageAdd = "New Category \n Game must exists yet"}
+            }
+
 
 
         }]);

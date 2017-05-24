@@ -14,17 +14,13 @@ var games = {
         return;
       }else{
         if(results=="errorDB"){
-          res.status(501);
-          res.json({
-            "status": 501,
-            "message": "Error on database"
-          });
-          return;
+          bd.errorDB();
        }
        else {
           if(results){
             res.status(200);
             res.json(results);
+            return;
           }
         }
       }
@@ -46,17 +42,13 @@ var games = {
           return;
         }else{
           if(results=="errorDB"){
-            res.status(501);
-            res.json({
-              "status": 501,
-              "message": "Error on database"
-            });
-            return;
+            bd.errorDB();
          }
          else {
             if(results){
               res.status(200);
               res.json(results);
+              return;
             }
           }
         }
@@ -64,9 +56,44 @@ var games = {
     }
   },
 
-  getGame: function(req,res){},
 
-  addGame: function(req,res){}
+
+  addGame: function(req,res,callback){
+    var nameGame = req.body.name;
+    var typeGame = req.body.type;
+    var descGame = req.body.desc;
+
+    if(nameGame != "" && typeGame != ""){
+      if(descGame == ""){
+        descGame = "NULL";
+      }
+      console.log("ok1");
+      bd.newGame(nameGame,typeGame,descGame,function(results){
+        console.log("ok2");
+        if(results=="errorDB"){
+          bd.errorDB();
+        }
+        else {
+            if(results){
+              console.log("ok3");
+              res.status(201);
+              return;
+            }
+        }
+      })
+
+    }else{
+      res.status(400);
+      res.json({
+        "status": 400,
+        "message": "Invalid inputs"
+      });
+      return;
+    }
+
+  },
+  getGame: function(req,res){}
+
 
 }
 

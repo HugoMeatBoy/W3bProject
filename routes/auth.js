@@ -83,9 +83,9 @@ var auth = {
 
         bd.registration(user, passwordCrypt, function(results){
             if (!results || results == "") {
-              res.status(401);
+              res.status(400);
               res.json({
-                "status": 401,
+                "status": 400,
                 "message": "Invalid sign up"
               });
               return;
@@ -102,9 +102,9 @@ var auth = {
               }
               else {
                 if (results=="OK") {
-                  res.status(200);
+                  res.status(201);
                   res.json({
-                    "status": 200,
+                    "status": 201,
                     "message": "Successfull sign up ! Log in now :)"
                   });
                 }
@@ -112,9 +112,9 @@ var auth = {
             }
           });
         }else{
-         res.status(401);
+         res.status(400);
          res.json({
-           "status": 401,
+           "status": 400,
            "message": "Missing inputs for sign up"
          });
        }

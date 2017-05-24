@@ -3,10 +3,11 @@
 </div>
 
 <div id="userGames">
-  <table  ng-repeat="jeux in datas">
+  <h4 ng-show="active">{{messageAlert}}</h4>
+  <table ng-hide="active()" ng-repeat="jeux in datas">
     <tr>
       <th colspan="2">
-        Game {{jeux.nomjeu || 'No games found'}}
+        Game {{jeux.nomjeu}}
       </th>
     </tr>
     <tr>
@@ -22,10 +23,5 @@
   </table>
 </div>
 
-<div id="addGame">
-  <form>
 
-    <input placeholder="New game">
-
-  </form>
 </div>

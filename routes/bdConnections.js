@@ -13,7 +13,7 @@ var bd = {
          }
 
 
-         var sql = "INSERT INTO membre VALUES(4,\'"+user+"\',\'"+passwordCry+"\');";
+         var sql = "INSERT INTO membre (pseudomembre,passwordmembre) VALUES(\'"+user+"\',\'"+passwordCry+"\');";
 
          client.query(sql,  function(err, result) {
            //call `done()` to release the client back to the pool
@@ -67,10 +67,10 @@ var bd = {
 
          }
 
+         var resp;
+         var sql = "SELECT nomjeu, nomcategorie  FROM jeu,categorie WHERE jeu.idjeu=categorie.idjeu;";
 
-         var sql = "SELECT DISTINCT ON (jeu.idjeu) jeu.idjeu, nomjeu, nomcategorie FROM jeu,categorie WHERE jeu.idjeu=categorie.idjeu ORDER BY jeu.idjeu, nomjeu;";
-         console.log(sql);
-         client.query(sql,  function(err, result) {
+            client.query(sql,  function(err, result) {
            done();
 
            if(err) {
@@ -78,7 +78,7 @@ var bd = {
              callback("errorDB");
              return;
            }else {
-
+             console.log(result.rows);
              callback(result.rows);
              return;
           }
@@ -94,12 +94,13 @@ var bd = {
        }
 
 
-       var sql = "SELECT * FROM jeu,jeuspeedrun WHERE jeu.idJeu = jeuspeedrun.idJeu AND idmembre="+ user +";";
+       var sql = "SELECT * FROM jeu,jeuspeedrun,categorie WHERE jeu.idjeu=categorie.idjeu AND categorie.idcategorie=jeuspeedrun.idcategorie AND idmembre="+ user +";";
        console.log(sql);
        client.query(sql,  function(err, result) {
          done();
 
          if(err) {
+           console.log(err);
            callback("errorDB");
            return;
          }else {
@@ -109,7 +110,43 @@ var bd = {
         }
        });
   });
-} //getGames()
+},//getGames()
+
+    newGame: function(name,type,desc,callback){
+      pg.connect(conString, function(err, client, done) {
+         if(err) {
+           return console.error('error fetching client from pool', err);
+
+         }
+
+
+         var sql = "INSERT INTO jeu (nomjeu,typejeu,descriptionjeu) VALUES(\'"+name+"\',\'"+type+"\',\'"+desc+"\');";
+
+         client.query(sql,  function(err, result) {
+           //call `done()` to release the client back to the pool
+           done();
+
+           if(err) {
+
+             callback("errorDB");
+             return;
+           }else {
+
+             callback("OK");
+             return;
+          }
+         });
+      });
+    },//newGame
+
+    errorDB: function(){
+        res.status(501);
+        res.json({
+          "status": 501,
+          "message": "Error on database"
+        });
+        return;
+    }
 
 }
 
