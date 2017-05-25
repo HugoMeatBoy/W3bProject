@@ -46,6 +46,7 @@ var auth = {
               if (results) {
                 res.status(200);
                 res.json(genToken(results[0].idmembre,results[0].pseudomembre));
+                return;
               }
             }
           }
