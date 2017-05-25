@@ -26,7 +26,7 @@ app.factory('GamesFact', function($http,LINK) {
           });
        }
 
-    gamesFactory.newUserGame = function(cat,user,gam){
+    gamesFactory.newUserGame = function(cat,user,game){
 
       var url = "/api/"+user+"/newgame";
 

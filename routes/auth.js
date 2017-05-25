@@ -16,7 +16,7 @@ var auth = {
    login: function(req,res,callback){
      var user = req.body.username || "";
      var password = req.body.password || "";
-
+     console.log("ok0");
      if(user && password){
 
        var passwordCrypt = CryptoJS.HmacSHA1(password, krypt);
@@ -24,7 +24,7 @@ var auth = {
        bd.authentication(user,passwordCrypt,function(results){
 
           if (!results || results == "") {
-
+            console.log("ok1");
             res.status(401);
             res.json({
               "status": 401,
@@ -35,6 +35,7 @@ var auth = {
           else {
 
             if(results=="errorDB"){
+              console.log("ok");
               res.status(501);
               res.json({
                 "status": 501,
@@ -43,6 +44,7 @@ var auth = {
               return;
             }
             else {
+              console.log("ok5");
               if (results) {
                 res.status(200);
                 res.json(genToken(results[0].idmembre,results[0].pseudomembre));

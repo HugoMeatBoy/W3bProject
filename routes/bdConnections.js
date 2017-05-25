@@ -35,6 +35,7 @@ var bd = {
 
     authentication: function(user,password,callback){
       pg.connect(conString, function(err, client, done) {
+        console.log("ok");
          if(err) {
            return console.error('error fetching client from pool', err);
 
@@ -51,7 +52,7 @@ var bd = {
              callback("errorDB");
              return;
            }else {
-
+             console.log("ok");
              callback(result.rows);
              return;
           }

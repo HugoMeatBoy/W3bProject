@@ -1,6 +1,6 @@
 var app = angular.module('SpeedRunners', ['ngRoute']);
 
-//app.constant('LINK',"localhost:3000") ;
+//app.constant('LINK',"") ;
 app.constant('LINK',"https://w3bproject.herokuapp.com") ;
 
 

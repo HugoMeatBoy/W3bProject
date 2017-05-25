@@ -68,7 +68,7 @@ app.controller('LoginCtrl', ['$scope', '$http','$window',  '$location', 'TokenFa
                           $scope.alertMessage = "";
                           $location.path("/home");
                       }, function errorCallback(response) {
-                          $scope.alertMessage = "/!\\ " + response.data.message + response.data.status;
+                          $scope.alertMessage = "/!\\ " + response.status;
                           $location.path("/");
                       });
 
@@ -100,7 +100,7 @@ app.controller('LoginCtrl', ['$scope', '$http','$window',  '$location', 'TokenFa
                         $scope.alertMessage = response.data.message;;
                         $location.path("/");
                     }, function errorCallback(response) {
-                        $scope.alertMessage = "/!\\ " + response.data.message;
+                        $scope.alertMessage = "/!\\ " + response.status;
                         $location.path("/");
                     });
               }else{
@@ -150,6 +150,8 @@ app.controller('UserCtrl',['$scope', '$http','$window', '$location','GamesFact',
 
 
           $scope.speedrun = function(game,category){
+            console.log(game);
+            console.log('game ?');
             $window.sessionStorage.SRgame = game;
             $window.sessionStorage.SRcat = category;
             $location.path("/speedrun");

@@ -20,7 +20,7 @@ app.factory('LoginFact', function($http,LINK) {
 
 
   loginFactory.userLogin = function(username,password){
-    console.log("ok1");
+  
      return $http({
           method: 'POST',
           url: LINK+'/home',
