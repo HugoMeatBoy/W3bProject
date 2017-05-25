@@ -7,6 +7,7 @@ require('dotenv').load();
 var key = process.env.ENCODING_KEY;
 var krypt = process.env.CRYPT_KEY;
 
+
 var auth = {
 
 
@@ -21,7 +22,6 @@ var auth = {
        var passwordCrypt = CryptoJS.HmacSHA1(password, krypt);
 
        bd.authentication(user,passwordCrypt,function(results){
-
 
           if (!results || results == "") {
 
