@@ -139,14 +139,8 @@ app.controller('UserCtrl',['$scope', '$http','$window', '$location','GamesFact',
                 method: 'GET',
                 url: LINK+url,
               }).then(function successCallback(response) { //Success connection
-
-
                       $scope.message = response.data.message;
                       $scope.datas = response.data;
-
-
-
-
                 }, function errorCallback(response) {
 
                 });
@@ -180,15 +174,18 @@ app.controller('UserCtrl',['$scope', '$http','$window', '$location','GamesFact',
 
 /****************** GAMES CONTROLLER **********************/
 
-app.controller('GamesCtrl',['$scope','$http','$window',  '$location','GamesFact','LINK',
+app.controller('GamesCtrl',['$scope','$http','$window','$location','GamesFact','LINK',
         function($scope, $http, $window, $location,GamesFact, LINK){
 
           $scope.act = 1;
           $scope.messageAdd = "New Game";
           $scope.messageAlert = "";
           $scope.jeux = [];
+          
 
           //GET ALL RUNNED GAMES
+
+
           $http({
                  method: 'GET',
                  url: LINK+'/api/gamesRun',
@@ -247,19 +244,24 @@ app.controller('GamesCtrl',['$scope','$http','$window',  '$location','GamesFact'
 
               $scope.messageAlert = "";
 
-              if(nameGame != undefined && typeGame != undefined)
+              if(nameGame != undefined && typeGame != undefined){
 
               GamesFact.newGame(nameGame,typeGame,descGame).then(function successCallback(response) {
-                $location.path("/games");
+
               }, function errorCallback(response) {
                 if(response.data){
                   $scope.messageAlert = response.data.message;
                 }
               });
 
-              $scope.namegame = "";
-              $scope.typegame = "";
-              $scope.descgame = "";
+                $scope.namegame = "";
+                $scope.typegame = "";
+                $scope.descgame = "";
+
+                $window.location.reload();
+
+              }
+
             }
 
 
@@ -276,7 +278,6 @@ app.controller('GamesCtrl',['$scope','$http','$window',  '$location','GamesFact'
 
               GamesFact.newCategory(Game,nameCat,desCat).then(function successCallback(response) {
 
-                  $location.path("/games");
 
               }, function errorCallback(response) {
                 if(response.data){
@@ -286,6 +287,8 @@ app.controller('GamesCtrl',['$scope','$http','$window',  '$location','GamesFact'
               $scope.game = "";
               $scope.namecat = "";
               $scope.descat = "";
+
+              $window.location.reload();
             }
           }
 
