@@ -1,4 +1,6 @@
 var jwt = require('jwt-simple');
+require('dotenv').load();
+
 var data = process.env.ENCODING_KEY;
 
 

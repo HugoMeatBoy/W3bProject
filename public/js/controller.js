@@ -68,7 +68,7 @@ app.controller('LoginCtrl', ['$scope', '$http','$window',  '$location', 'TokenFa
                           $scope.alertMessage = "";
                           $location.path("/home");
                       }, function errorCallback(response) {
-                          $scope.alertMessage = "/!\\ " + response.data.message;
+                          $scope.alertMessage = "/!\\ " + response.data.message + response.data.status;
                           $location.path("/");
                       });
 

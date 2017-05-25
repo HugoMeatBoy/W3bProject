@@ -1,7 +1,7 @@
 var jwt = require('jwt-simple');
 var bd = require('./bdConnections.js');
 var CryptoJS = require("crypto-js");
-
+require('dotenv').load();
 
 
 var key = process.env.ENCODING_KEY;
