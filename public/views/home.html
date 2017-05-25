@@ -7,19 +7,19 @@
   <table ng-hide="active()" ng-repeat="jeux in datas">
     <tr>
       <th colspan="3">
-        Game {{jeux.nomjeu}}
+        {{jeux.nomjeu}}
       </th>
     </tr>
     <tr>
       <td style="width:70%" class="gameCat">
-        Categorie {{jeux.descriptionjeu}}
+        Categorie {{jeux.nomcategorie}}
       </td>
 
       <td>
         Record
       </td>
       <td>
-        <img src="./images/joystick.png" />
+        <img src="./images/joystick.png" ng-click="speedrun(jeux.nomjeu,jeux.nomcategorie)"/>
       </td>
     </tr>
   </table>

@@ -119,7 +119,7 @@ var bd = {
        }
 
 
-       var sql = "SELECT * FROM jeu,jeuspeedrun,categorie WHERE jeu.idjeu=categorie.idjeu AND categorie.idcategorie=jeuspeedrun.idcategorie AND idmembre="+ user +";";
+       var sql = "SELECT nomjeu, nomcategorie FROM jeu,jeuspeedrun,categorie WHERE jeu.idjeu=categorie.idjeu AND categorie.idcategorie=jeuspeedrun.idcategorie AND idmembre="+ user +";";
        console.log(sql);
        client.query(sql,  function(err, result) {
          done();

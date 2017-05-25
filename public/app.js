@@ -46,7 +46,7 @@ app.config(function($routeProvider, $httpProvider) {
     }
   }).when('/speedrun', {
     templateUrl: 'views/speedrun.html',
-    controller: 'SpeedRunCtrl',
+    controller: 'SpeedrunCtrl',
     permission: {
       login: true
     }

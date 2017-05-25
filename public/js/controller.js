@@ -143,6 +143,12 @@ app.controller('UserCtrl',['$scope', '$http','$window',  '$location',
 
                 });
 
+          $scope.speedrun = function(game,category){
+            $window.sessionStorage.SRgame = game;
+            $window.sessionStorage.SRcat = category;
+            $location.path("/speedrun");
+          }
+
         $scope.active = function(){
             if($scope.message == "No games founds"){
               $scope.messageAlert = "Look on games to start a speedrun or add a new game !"
@@ -181,6 +187,7 @@ app.controller('GamesCtrl',['$scope','$http','$window',  '$location','GamesFact'
                     $scope.games = response.data;
                 }, function errorCallback(response) {
                 });
+
 
 
 
@@ -260,3 +267,7 @@ app.controller('GamesCtrl',['$scope','$http','$window',  '$location','GamesFact'
 
 
         }]);
+
+
+app.controller('SpeedrunCtrl',['$scope','$http','$window',  '$location','SpeedrunFact',
+      function($scope, $http, $window, $location,SpeedrunFact){    }]);
