@@ -220,7 +220,7 @@ app.controller('GamesCtrl',['$scope','$http','$window',  '$location','GamesFact'
 
 */
                  }, function errorCallback(response) {
-                   $scope.messageAlert = "Error on request 1";
+                   $scope.messageAlert = response.data.message;
          });
 
 
