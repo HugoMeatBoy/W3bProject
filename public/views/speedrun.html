@@ -11,37 +11,54 @@
     <tr>
       <td id="timer">
         <h2>{{counterMin + ":" + counter}}</h2>
-
       </td>
-      <td id="playBtn">
-        <button ng-click="stopCounter()">Stop</button>
-        <button ng-click="startCounter()">Start</button>
+      <td id="playBtn" ng-click="Counter()">
+        <div ng-show="btnActive(1)" >Stop</div>
+        <div ng-show="btnActive(2)">Start</div>
+        <div ng-show="btnActive(3)">Split/</div>
       </td>
     </tr>
     <tr>
       <td id="splits">
 
         <table>
-          <tr>
-            <td id="splitname">
-              split1
-            </td>
-            <td id="timesplit">
-              time1
-            </td>
-            <td id="gapsplit">
+          <th id="splitname">
+              <p ng-repeat="splits in runS.run">
+                {{splits}}
+              </p>
+          </th>
+
+
+          <th  id="timesplit">
+            <p ng-repeat="time in splitsTime">
+              {{time}}
+            </p>
+          </th>
+          <th id="gapsplit">
               ecart1
+          </th>
+
+        </table>
+        <table id="bottomSplits">
+
+          <tr>
+            <td id="settingsSplits" colspan="3">
+                <select ng-model="splitsSel">
+                  <option value="" disabled selected>Select splits..</option>
+                  <option ng-repeat="splits in dataRun" ng-click="setSplits()" value="{{splits.datasplits}}">{{splits.datasplits}}</option>
+                </select>
+                <br/>
+                <input id="newSplits" placeholder="Input new splits (separate them with comas)"></input><button>Go</button>
+            </td>
+          <td colspan="2" id="recordUser">
+              <p>PB :</p>
+              <p>WR :</p>
             </td>
           </tr>
         </table>
-
-
-        best time
-        WR
-
       </td>
       <td id="resets">
-        RESET button
+        RESET <button ng-click="resetCounter()">RESTART</button>
       </td>
     </tr>
   </table>

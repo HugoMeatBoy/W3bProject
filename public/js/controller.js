@@ -25,6 +25,8 @@ app.controller('DisplayCtrl', ['$scope','$window', '$location', 'TokenFact',
         delete $window.sessionStorage.user;
         delete $window.sessionStorage.token;
         delete $window.sessionStorage.com;
+        delete $window.sessionStorage.SRgame;
+        delete $window.sessionStorage.SRcat;
       }
       $location.path("/");
     }
@@ -55,10 +57,11 @@ app.controller('LoginCtrl', ['$scope', '$http','$window',  '$location', 'TokenFa
 
             username = $scope.user;
             password = $scope.password;
-            $scope.user = "";
-            $scope.password = "";
+
 
            if (username !== undefined && password !== undefined) {
+             $scope.user = "";
+             $scope.password = "";
 
              LoginFact.userLogin(username,password).then(function successCallback(response) { //Success connection
                           TokenFact.log = true;
@@ -68,7 +71,7 @@ app.controller('LoginCtrl', ['$scope', '$http','$window',  '$location', 'TokenFa
                           $scope.alertMessage = "";
                           $location.path("/home");
                       }, function errorCallback(response) {
-                          $scope.alertMessage = "/!\\ " + response.status;
+                          $scope.alertMessage = "/!\\ " + response.data.message;
                           $location.path("/");
                       });
 
@@ -88,19 +91,20 @@ app.controller('LoginCtrl', ['$scope', '$http','$window',  '$location', 'TokenFa
           userSignup = $scope.username;
           passOne = $scope.passwordOne;
           passTwo = $scope.passwordTwo;
-          $scope.username = "";
-          $scope.passwordOne = "";
-          $scope.passwordTwo = "";
+
 
 
          if (userSignup !== undefined && passOne !== undefined && passTwo !== undefined) {
            if(passOne==passTwo){
+             $scope.username = "";
+             $scope.passwordOne = "";
+             $scope.passwordTwo = "";
 
              RegistrationFact.userReg(userSignup,passOne,passTwo).then(function successCallback(response) { //Success connection
                         $scope.alertMessage = response.data.message;;
                         $location.path("/");
                     }, function errorCallback(response) {
-                        $scope.alertMessage = "/!\\ " + response.status;
+                        $scope.alertMessage = "/!\\ " + response.data.message;
                         $location.path("/");
                     });
               }else{
@@ -150,8 +154,6 @@ app.controller('UserCtrl',['$scope', '$http','$window', '$location','GamesFact',
 
 
           $scope.speedrun = function(game,category){
-            console.log(game);
-            console.log('game ?');
             $window.sessionStorage.SRgame = game;
             $window.sessionStorage.SRcat = category;
             $location.path("/speedrun");
@@ -198,7 +200,9 @@ app.controller('GamesCtrl',['$scope','$http','$window',  '$location','GamesFact'
 
                            if($scope.datas[i].descriptioncategorie == undefined || $scope.datas[i].descriptioncategorie == 'undefined'){
                              $scope.datas[i].descriptioncategorie = "";
-
+                           };
+                           if($scope.datas[i].descriptionjeu == undefined || $scope.datas[i].descriptionjeu == 'undefined' || $scope.datas[i].descriptionjeu == 'NULL'){
+                             $scope.datas[i].descriptionjeu  = " ";
                            };
                          i++;
                     }
@@ -210,21 +214,13 @@ app.controller('GamesCtrl',['$scope','$http','$window',  '$location','GamesFact'
                            url:  LINK+url,
                          }).then(function successCallback(res) {
                            $scope.jeux = res.data;
-                         }, function errorCallback(response) {
-                           $scope.messageAlert = "Error on request 2";
-                           console.log(response.data.message + response.status);
+                         }, function errorCallback(res) {
+                           if(res.data){
+                              $scope.messageAlert = res.data.message;
+                           }
                          });
-
-
-
-
-/*
-
-*/
                  }, function errorCallback(response) {
-                   console.log(response.status);
-                   console.log(response.data);
-                   $scope.messageAlert = "Err 2";
+                   $scope.messageAlert = "Err";
          });
 
 
@@ -233,9 +229,8 @@ app.controller('GamesCtrl',['$scope','$http','$window',  '$location','GamesFact'
                 method: 'GET',
                 url:  LINK+'/api/games',
               }).then(function successCallback(response) { //Success connection
-
+                    var j = 0;
                     $scope.games = response.data;
-
                 }, function errorCallback(response) {
 
                 });
@@ -249,9 +244,7 @@ app.controller('GamesCtrl',['$scope','$http','$window',  '$location','GamesFact'
               nameGame = $scope.namegame;
               typeGame = $scope.typegame;
               descGame = $scope.descgame;
-              $scope.namegame = "";
-              $scope.typegame = "";
-              $scope.descgame = "";
+
               $scope.messageAlert = "";
 
               if(nameGame != undefined && typeGame != undefined)
@@ -259,9 +252,14 @@ app.controller('GamesCtrl',['$scope','$http','$window',  '$location','GamesFact'
               GamesFact.newGame(nameGame,typeGame,descGame).then(function successCallback(response) {
                 $location.path("/games");
               }, function errorCallback(response) {
-
-                $scope.messageAlert = response.data.message;
+                if(response.data){
+                  $scope.messageAlert = response.data.message;
+                }
               });
+
+              $scope.namegame = "";
+              $scope.typegame = "";
+              $scope.descgame = "";
             }
 
 
@@ -271,21 +269,23 @@ app.controller('GamesCtrl',['$scope','$http','$window',  '$location','GamesFact'
               Game = $scope.game;
               nameCat = $scope.namecat;
               desCat = $scope.descat;
-              $scope.game = "";
-              $scope.namecat = "";
-              $scope.descat = "";
+
               $scope.messageAlert = "";
 
               if(Game != undefined && nameCat != undefined){
 
               GamesFact.newCategory(Game,nameCat,desCat).then(function successCallback(response) {
 
-                $location.path("/games");
+                  $location.path("/games");
+
               }, function errorCallback(response) {
-
-                $scope.messageAlert = response.data.message;
+                if(response.data){
+                  $scope.messageAlert = response.data.message;
+                }
               });
-
+              $scope.game = "";
+              $scope.namecat = "";
+              $scope.descat = "";
             }
           }
 
@@ -348,46 +348,155 @@ app.controller('GamesCtrl',['$scope','$http','$window',  '$location','GamesFact'
               $scope.messageAlert = "";
             }
 
-
-
-
-
-
         }]);
 
 
-app.controller('SpeedrunCtrl',['$scope','$http','$window','$location','$timeout','SpeedrunFact',
-      function($scope, $http, $window, $location,$timeout,SpeedrunFact){
+app.controller('SpeedrunCtrl',['$scope','$http','$window','$location','$timeout','SpeedrunFact','LINK',
+      function($scope, $http, $window, $location,$timeout,SpeedrunFact,LINK){
         $scope.nameGame = $window.sessionStorage.SRgame;
-        $scope.nameCat = $window.sessionStorage.SRcat;
+        $scope.idCat = $window.sessionStorage.SRcat;
         $scope.descCat = "GL HF";
+        $scope.display = 2;
+        $scope.dataRun = [];
+        $scope.splitsTime = [];
+        $scope.splitsSel = [];
+        var splitsCpt = 0;
+        var splitsLength;
+        runSplits = "";
+        var url;
+
+
+        url = "/api/speedrun/" + $scope.idCat;
+        $http({
+              method: 'GET',
+              url:LINK+url,
+            }).then(function successCallback(response) {
+              $scope.dataRun = response.data;
+              if($scope.dataRun[0].datasplits){
+
+                $scope.splitsSel = $scope.dataRun[0].datasplits;
+                $scope.setSplits();
+              }else{
+                $scope.messageAlert = "Add the firsts splits";
+              }
+            }, function errorCallback(response) {
+              if(response.data){
+              console.log(response.status);
+             }
+            });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
           var timer = null;
 
+
           $scope.counter = 0;
           $scope.counterMin = 0;
 
+
+          $scope.btnActive = function(tab){
+            if($scope.display == tab){
+              return true;
+            }else{
+              return false;
+            }
+          };
+
+
+
+          $scope.setSplits = function(){
+            runSplits = "{\"run\":"+ $scope.splitsSel + "}";
+
+            $scope.runS = JSON.parse(runSplits);
+            splitsLength = $scope.runS.run.length;
+
+          }
+
+
+
+
+
+
+
+
+          /* CHRONO */
+          $scope.Counter = function(){
+            if($scope.btnActive(2)){$scope.startCounter(0)}
+            else if($scope.btnActive(3)){
+              $scope.splits();
+            }else{
+              $scope.stopCounter();
+            }
+          }
+
+
+
+          $scope.startCounter = function() {
+              if (timer == null){
+                console.log(splitsLength);
+                if(splitsLength== 1) {
+                  $scope.display = 1;
+                }else{
+                  $scope.display = 3;
+                }
+                timer = $timeout(updateCounter, 1000);
+              }
+          };
+
+
+          $scope.splits = function(){
+            console.log(splitsCpt + "   " + splitsLength);
+              if(splitsCpt==splitsLength-2){
+                $scope.splitsTime[splitsCpt] = $scope.counterMin + ":" + $scope.counter;
+                $scope.display = 1;
+              }else{
+                $scope.splitsTime[splitsCpt] = $scope.counterMin + ":" + $scope.counter;
+                splitsCpt++;
+              }
+          };
+
           $scope.stopCounter = function() {
+              $scope.splitsTime[splitsCpt+1] = $scope.counterMin + ":" + $scope.counter;
               $timeout.cancel(timer);
               timer = null;
           };
 
-          $scope.startCounter = function() {
-              if (timer === null) {
-                  timer = $timeout(updateCounter, 1000);
-              }
-          };
+            $scope.resetCounter = function(){
+              $timeout.cancel(timer);
+              timer = null;
+              $scope.counter = 0;
+              $scope.counterMin = 0;
+              splitsCpt = 0;
+              $scope.splitsTime = [];
+              $scope.display = 2;
+
+            };
+
+
           var updateCounter = function() {
               $scope.counter++;
-              if($scope.counter == 59){
+              if($scope.counter == 60){
                 $scope.counterMin++;
                 $scope.counter = 0;
               }
               timer = $timeout(updateCounter, 1000);
           };
-
-
-
 
          }]);

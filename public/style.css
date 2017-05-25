@@ -303,6 +303,7 @@ select{
   padding-bottom: 6%;
   padding-left: 12%;
   padding-right: 12%;
+
 }
 
 #titleSR{
@@ -327,25 +328,88 @@ select{
 
 
 #timer{
-  margin:50px;
-  border: 10px solid #444444;
+
+  text-align: center;
+  color: white;
   height: 150px;
   width: 60%;
-  background-color: #CCCCCC;
+  background-color: #868686;
+}
+
+#timer h2{
+  font-size: 1000%;
+  font-family: "Tw Cen MT", sans-serif;
 }
 
 #playBtn{
-  background-color: #ABABAB;
+  background-color: #CCCCCC;
   width: 40%;
 }
+
+
 #splits{
   width: 70%;
   height: 400px;
   background-color: #442222;
   color:white;
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto -80px;
   position: relative;
-  top: 0px;
+
 }
+
+#bottomSplits{
+  height: 80px;
+  background-color: #351717;
+  width: 100%;
+}
+
+#settingsSplits{
+  position: relative;
+  width: 60%;
+}
+
+#settingsSplits select{
+  height: 90%;
+  width: 100%;
+  background-color: #AA2222;
+  font-size: 10px;
+}
+
+
+#settingsSplits option{
+  font-family: 'Lucida Sans Typewriter';
+  color:#AAAAAA;
+}
+
+#recordUser{
+
+  background-color: black;
+  color:white;
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+#newSplits{
+  width: 70%;
+  font-size: 10px;
+}
+
+
+
+
 #resets{
   width: 30%;
   background-color: #DFDFDF;
@@ -357,8 +421,14 @@ select{
 
 #timesplit{
   width: 20%;
+  padding: 5%;
+  position: absolute;
+  top: 0;
+}
+#timesplit p{
 
 }
+
 #gapsplit{
   width: 20%;
 }

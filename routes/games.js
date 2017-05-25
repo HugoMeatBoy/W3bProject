@@ -14,7 +14,7 @@ var games = {
         return;
       }else{
         if(results=="errorDB"){
-          bd.errorDB();
+          games.errorDB()
        }
        else {
           if(results){
@@ -42,7 +42,7 @@ var games = {
           return;
         }else{
           if(results=="errorDB"){
-            bd.errorDB();
+            games.errorDB();
          }
          else {
             if(results){
@@ -74,7 +74,7 @@ var games = {
           return;
         }else{
           if(results=="errorDB"){
-            bd.errorDB();
+            games.errorDB();
          }
          else {
             if(results){
@@ -176,8 +176,7 @@ var games = {
         return;
       }else{
         if(results=="errorDB"){
-
-          bd.errorDB();
+          games.errorDB();
        }
        else {
           if(results){
@@ -190,6 +189,14 @@ var games = {
     });
   },//getRunnedGames()
 
+  errorDB: function(req,res){
+      res.status(501);
+      res.json({
+        "status": 501,
+        "message": "Error on database"
+      });
+      return;
+  }
 }
 
 

@@ -16,7 +16,7 @@ router.get('/api', auth.welcome);
 /* Routes for members
 router.get('/api/user/:idU', auth.getUser);
 
-router.get('/api/user/:idU/speedrun/:idS', speedrun.setRun);
+
 router.post('/api/user/:idU/speedrun/:idS', speedrun.chooseRun);
 router.post('/api/user/:idU/speedrun/:idS/submit', speedrun.postRun);
 
@@ -25,11 +25,18 @@ router.post('/api/games/:idG/speedrun/:idS/newSplits', speedrun.addSplits);
 
 router.get('/api/game/:idG', games.getGame);
 */
+
+router.get('/api/speedrun/:idCat', speedrun.setRun);
+
+
 router.post('/api/:id/newgame',games.addUserGame);
+router.get('/api/games/:id', games.getUserGames);
+
+
 router.post('/api/:nameGame/newcategory', games.addCategory);
 router.post('/api/newgame', games.addGame);
 
-router.get('/api/games/:id', games.getUserGames);
+
 router.get('/api/gamesRun', games.getRunnedGames);
 router.get('/api/games', games.getAllGames);
 

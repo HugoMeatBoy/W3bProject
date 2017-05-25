@@ -35,7 +35,7 @@ var bd = {
 
     authentication: function(user,password,callback){
       pg.connect(conString, function(err, client, done) {
-        console.log("ok");
+
          if(err) {
            return console.error('error fetching client from pool', err);
 
@@ -121,7 +121,7 @@ var bd = {
        }
 
 
-       var sql = "SELECT nomjeu, nomcategorie FROM jeu,jeuspeedrun,categorie WHERE jeu.idjeu=categorie.idjeu AND categorie.idcategorie=jeuspeedrun.idcategorie AND idmembre="+ user +";";
+       var sql = "SELECT nomjeu, nomcategorie, categorie.idcategorie FROM jeu,jeuspeedrun,categorie WHERE jeu.idjeu=categorie.idjeu AND categorie.idcategorie=jeuspeedrun.idcategorie AND idmembre="+ user +";";
        console.log(sql);
        client.query(sql,  function(err, result) {
          done();
@@ -131,7 +131,7 @@ var bd = {
            callback("errorDB");
            return;
          }else {
-           console.log(result.rows);
+        
            callback(result.rows);
            return;
         }
@@ -156,7 +156,6 @@ var bd = {
            callback("errorDB");
            return;
          }else {
-           console.log(result.rows);
            callback(result.rows);
            return;
         }
@@ -217,14 +216,36 @@ var bd = {
       });
     },//newGame
 
-    errorDB: function(){
-        res.status(501);
-        res.json({
-          "status": 501,
-          "message": "Error on database"
-        });
-        return;
-    }
+
+
+
+
+    /******* SPEEDRUN ***********/
+
+    setSpeedrun: function(cat,callback){
+      pg.connect(conString, function(err, client, done) {
+         if(err) {
+           return console.error('error fetching client from pool', err);
+
+         }
+         var sql = "SELECT idsplits, datasplits FROM splits AS s,categorie AS c WHERE s.idcategorie=c.idcategorie AND c.idcategorie=\'"+cat+"\';";
+
+         client.query(sql,  function(err, result) {
+           //call `done()` to release the client back to the pool
+           done();
+
+           if(err) {
+             console.log(err);
+             callback("errorDB");
+             return;
+           }else {
+             console.log(result.rows);
+             callback(result.rows);
+             return;
+          }
+         });
+      });
+    },
 
 }
 
