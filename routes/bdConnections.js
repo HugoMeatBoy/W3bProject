@@ -1,7 +1,7 @@
 var pg = require('pg');
-require('dotenv').load();
 
-var conString = process.env.DB_ACCESS;
+
+var conString = process.env.DATABASE_URL;
 
 
 var bd = {

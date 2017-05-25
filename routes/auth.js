@@ -6,7 +6,6 @@ require('dotenv').load();
 
 var key = process.env.ENCODING_KEY;
 var krypt = process.env.CRYPT_KEY;
-var conString = process.env.DB_ACCESS;
 
 var auth = {
 
@@ -25,7 +24,7 @@ var auth = {
 
 
           if (!results || results == "") {
-            
+
             res.status(401);
             res.json({
               "status": 401,
