@@ -17,7 +17,7 @@ var auth = {
      var user = req.body.username || "";
      var password = req.body.password || "";
 
-
+     /*
      if(user && password){
 
        var passwordCrypt = CryptoJS.HmacSHA1(password, krypt);
@@ -57,9 +57,10 @@ var auth = {
          "status": 401,
          "message": "Missing inputs"
        });
-     }
+     }*/
 
-
+     res.status(200);
+     return;
 
   },//login()
 
@@ -107,6 +108,7 @@ var auth = {
                     "status": 201,
                     "message": "Successfull sign up ! Log in now :)"
                   });
+                  return;
                 }
               }
             }
