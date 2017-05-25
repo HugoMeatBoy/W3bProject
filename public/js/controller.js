@@ -66,7 +66,6 @@ app.controller('LoginCtrl', ['$scope', '$http','$window',  '$location', 'TokenFa
                           $window.sessionStorage.id = response.data.id;
                           $window.sessionStorage.user = username;
                           $scope.alertMessage = "";
-                            $scope.alertMessage = "/!\\ " + response.data.message + response.data.status;
                           $location.path("/home");
                       }, function errorCallback(response) {
                           $scope.alertMessage = "/!\\ " + response.data.message + response.data.status;

@@ -7,7 +7,7 @@
   var html = require('html');
   var ejs = require('ejs');
   //var helmet = require('helmet')
-  
+  require('dotenv').load();
   var CryptoJS = require("crypto-js");
 
 

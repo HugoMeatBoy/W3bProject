@@ -17,7 +17,6 @@ var auth = {
      var user = req.body.username || "";
      var password = req.body.password || "";
 
-     /*
      if(user && password){
 
        var passwordCrypt = CryptoJS.HmacSHA1(password, krypt);
@@ -26,6 +25,7 @@ var auth = {
 
 
           if (!results || results == "") {
+            
             res.status(401);
             res.json({
               "status": 401,
@@ -57,14 +57,7 @@ var auth = {
          "status": 401,
          "message": "Missing inputs"
        });
-     }*/
-
-     res.status(200);
-     res.json({
-       "status": 200,
-       "message": "HELLO"
-     });
-     return;
+     }
 
   },//login()
 

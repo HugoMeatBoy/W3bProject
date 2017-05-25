@@ -34,7 +34,7 @@ var bd = {
     },
 
     authentication: function(user,password,callback){
-      pg.connect(conString, function(err, client, done) {
+      /*pg.connect(conString, function(err, client, done) {
          if(err) {
            return console.error('error fetching client from pool', err);
 
@@ -56,7 +56,9 @@ var bd = {
              return;
           }
          });
-      });
+      });*/
+      var result = "OKAY";
+      callback(result);
 
 
     },//authentication()
