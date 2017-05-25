@@ -220,7 +220,9 @@ app.controller('GamesCtrl',['$scope','$http','$window',  '$location','GamesFact'
 
 */
                  }, function errorCallback(response) {
-                   $scope.messageAlert = response.data.message;
+                   console.log(response.status);
+                   console.log(response.data);
+                   $scope.messageAlert = "Err 2";
          });
 
 
