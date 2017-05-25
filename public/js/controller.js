@@ -15,7 +15,8 @@ app.factory('UserAuthFactory', function($window, $location, $http, TokenFact) {
     }
   }*/
 });
-app.controller('DisplayCtrl', ['$scope','$window', '$location', 'TokenFact', function($scope,$window,  $location, TokenFact){
+app.controller('DisplayCtrl', ['$scope','$window', '$location', 'TokenFact',
+  function($scope,$window,  $location, TokenFact){
 
     $scope.logout = function() {
       if (TokenFact.log) {
@@ -123,7 +124,7 @@ app.controller('LoginCtrl', ['$scope', '$http','$window',  '$location', 'TokenFa
 
 
 app.controller('UserCtrl',['$scope', '$http','$window', '$location','GamesFact',
-        function($scope, $http, $window, $location,GamesFact){
+        function($scope, $http, $window, $location,GamesFact,LINK){
           $scope.activeUser =  $window.sessionStorage.user;
 
           var url = "/api/games/" + $window.sessionStorage.id;
@@ -132,7 +133,7 @@ app.controller('UserCtrl',['$scope', '$http','$window', '$location','GamesFact',
           $scope.jeux = [];
           $http({
                 method: 'GET',
-                url: url,
+                url: LINK+url,
               }).then(function successCallback(response) { //Success connection
 
 
@@ -176,7 +177,7 @@ app.controller('UserCtrl',['$scope', '$http','$window', '$location','GamesFact',
 /****************** GAMES CONTROLLER **********************/
 
 app.controller('GamesCtrl',['$scope','$http','$window',  '$location','GamesFact',
-        function($scope, $http, $window, $location,GamesFact){
+        function($scope, $http, $window, $location,GamesFact, LINK){
 
           $scope.act = 1;
           $scope.messageAdd = "New Game";
@@ -186,7 +187,7 @@ app.controller('GamesCtrl',['$scope','$http','$window',  '$location','GamesFact'
           //GET ALL RUNNED GAMES
           $http({
                  method: 'GET',
-                 url: '/api/gamesRun',
+                 url: LINK+'/api/gamesRun',
                }).then(function successCallback(response) { //Success connection
                    var i = 0;
                      $scope.datas = response.data;
@@ -204,7 +205,7 @@ app.controller('GamesCtrl',['$scope','$http','$window',  '$location','GamesFact'
                      var url = "/api/games/" + $window.sessionStorage.id;
                      $http({
                            method: 'GET',
-                           url: url,
+                           url:  LINK+url,
                          }).then(function successCallback(res) {
                            $scope.jeux = res.data;
                          }, function errorCallback(response) {
@@ -225,7 +226,7 @@ app.controller('GamesCtrl',['$scope','$http','$window',  '$location','GamesFact'
          //GET ALL GAMES
          $http({
                 method: 'GET',
-                url: '/api/games',
+                url:  LINK+'/api/games',
               }).then(function successCallback(response) { //Success connection
                     $scope.games = response.data;
                 }, function errorCallback(response) {

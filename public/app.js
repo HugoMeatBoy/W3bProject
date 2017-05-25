@@ -1,6 +1,7 @@
 var app = angular.module('SpeedRunners', ['ngRoute']);
 
-
+//app.constant('LINK',"localhost:3000") ;
+app.constant('LINK',"https://w3bproject.herokuapp.com") ;
 
 
 
@@ -94,6 +95,3 @@ app.directive("header", function() {
     controller: "DisplayCtrl"
   };
 });
-
-
-app.constant("LINK","localhost:3000/") ;

@@ -15,14 +15,14 @@ app.factory('TokenFact', function($window) {
     return token;
 });
 
-app.factory('LoginFact', function($http) {
+app.factory('LoginFact', function($http,LINK) {
   var loginFactory = {};
 
 
   loginFactory.userLogin = function(username,password){
      return $http({
           method: 'POST',
-          url: '/home',
+          url: LINK+'/home',
           data:{
             username: username,
             password: password
@@ -35,13 +35,13 @@ app.factory('LoginFact', function($http) {
 
 
 
-app.factory('RegistrationFact', function($http) {
+app.factory('RegistrationFact', function($http,LINK) {
    var registrationFactory = {};
 
    registrationFactory.userReg = function(user,passOne,passTwo){
       return $http({
              method: 'POST',
-             url: '/registration',
+             url: LINK+'/registration',
              data:{
                username: userSignup,
                passOne: passOne,

@@ -1,10 +1,10 @@
-app.factory('GamesFact', function($http) {
+app.factory('GamesFact', function($http,LINK) {
   var gamesFactory = {};
 
   gamesFactory.newGame = function(name,type,desc){
     return $http({
            method: 'POST',
-           url: '/api/newgame',
+           url: LINK+'/api/newgame',
            data:{
              name: name,
              type: type,
@@ -18,7 +18,7 @@ app.factory('GamesFact', function($http) {
 
      return $http({
             method: 'POST',
-            url: url,
+            url: LINK+url,
             data:{
               nameC: nameCat,
               desc: desc
@@ -26,13 +26,13 @@ app.factory('GamesFact', function($http) {
           });
        }
 
-    gamesFactory.newUserGame = function(cat,user,game){
+    gamesFactory.newUserGame = function(cat,user,gam){
 
       var url = "/api/"+user+"/newgame";
 
       return $http({
              method: 'POST',
-             url: url,
+             url: LINK+url,
              data:{
               categorie: cat,
               game: game
