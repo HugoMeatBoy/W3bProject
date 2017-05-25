@@ -10,10 +10,12 @@
     </tr>
     <tr>
       <td id="timer">
-        TIMER
+        <h2>{{counterMin + ":" + counter}}</h2>
+
       </td>
       <td id="playBtn">
-        PLAY/SPLITS
+        <button ng-click="stopCounter()">Stop</button>
+        <button ng-click="startCounter()">Start</button>
       </td>
     </tr>
     <tr>

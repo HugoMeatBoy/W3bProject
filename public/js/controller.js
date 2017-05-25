@@ -233,10 +233,11 @@ app.controller('GamesCtrl',['$scope','$http','$window',  '$location','GamesFact'
                 method: 'GET',
                 url:  LINK+'/api/games',
               }).then(function successCallback(response) { //Success connection
-                    console.log(response.data);
+
                     $scope.games = response.data;
+
                 }, function errorCallback(response) {
-                  console.log(response.data.message + response.status);
+
                 });
 
 
@@ -309,8 +310,6 @@ app.controller('GamesCtrl',['$scope','$http','$window',  '$location','GamesFact'
               var show = false;
 
               for(k;k<$scope.jeux.length;k++){
-
-                console.log(k);
                 if(nomC == $scope.jeux[k].nomcategorie && nomJ == $scope.jeux[k].nomjeu){
                     show = true
                     return show;
@@ -357,11 +356,38 @@ app.controller('GamesCtrl',['$scope','$http','$window',  '$location','GamesFact'
         }]);
 
 
-app.controller('SpeedrunCtrl',['$scope','$http','$window',  '$location','SpeedrunFact',
-      function($scope, $http, $window, $location,SpeedrunFact){
+app.controller('SpeedrunCtrl',['$scope','$http','$window','$location','$timeout','SpeedrunFact',
+      function($scope, $http, $window, $location,$timeout,SpeedrunFact){
         $scope.nameGame = $window.sessionStorage.SRgame;
         $scope.nameCat = $window.sessionStorage.SRcat;
         $scope.descCat = "GL HF";
+
+
+          var timer = null;
+
+          $scope.counter = 0;
+          $scope.counterMin = 0;
+
+          $scope.stopCounter = function() {
+              $timeout.cancel(timer);
+              timer = null;
+          };
+
+          $scope.startCounter = function() {
+              if (timer === null) {
+                  timer = $timeout(updateCounter, 1000);
+              }
+          };
+          var updateCounter = function() {
+              $scope.counter++;
+              if($scope.counter == 59){
+                $scope.counterMin++;
+                $scope.counter = 0;
+              }
+              timer = $timeout(updateCounter, 1000);
+          };
+
+
 
 
          }]);

@@ -74,13 +74,21 @@
             <h3>{{messageAdd}}</h3>
             <h6>{{messageAddCat}}</h6>
             <br/>
-            <input placeholder="Game name" type="text" name="game" ng-model="game" required>
+
+            <select id="selt" ng-model="game">
+              <option value="" disabled selected>Select Game..</option>
+              <option ng-repeat="jeux in games" value="{{jeux.nomjeu}}">{{jeux.nomjeu}}</option>
+            </select>
+
+
+
+
 
             <input placeholder="New category" type="text" name="namecat" ng-model="namecat" required>
 
             <input placeholder="Description/ Advices" type="text" name="descat" ng-model="descat">
 
-          <button id="addGamebtn" type="button" class="btn waves-effect waves-light" ng-click="addCategory()">Add Category</button>
+            <button id="addGamebtn" type="button" class="btn waves-effect waves-light" ng-click="addCategory()">Add Category</button>
 
           </form>
 
