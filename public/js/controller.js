@@ -123,7 +123,7 @@ app.controller('LoginCtrl', ['$scope', '$http','$window',  '$location', 'TokenFa
 
 
 
-app.controller('UserCtrl',['$scope', '$http','$window', '$location','GamesFact',
+app.controller('UserCtrl',['$scope', '$http','$window', '$location','GamesFact','LINK',
         function($scope, $http, $window, $location,GamesFact,LINK){
           $scope.activeUser =  $window.sessionStorage.user;
 
@@ -176,7 +176,7 @@ app.controller('UserCtrl',['$scope', '$http','$window', '$location','GamesFact',
 
 /****************** GAMES CONTROLLER **********************/
 
-app.controller('GamesCtrl',['$scope','$http','$window',  '$location','GamesFact',
+app.controller('GamesCtrl',['$scope','$http','$window',  '$location','GamesFact','LINK',
         function($scope, $http, $window, $location,GamesFact, LINK){
 
           $scope.act = 1;
