@@ -60,6 +60,10 @@ var auth = {
      }*/
 
      res.status(200);
+     res.json({
+       "status": 200,
+       "message": "HELLO"
+     });
      return;
 
   },//login()
