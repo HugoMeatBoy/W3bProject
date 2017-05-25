@@ -174,13 +174,33 @@ label{
 
 #games{
   background-color: #FBFBFB;
-  padding:5%;
+  height: 50%;
 }
 
-.gameCat{
-    position:relative;
-    left:5%;
+#gamesMainBar{
+
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 150%;
+    font-weight: 300;
+    color: #AA2222;
 }
+#gamesMainBar td{
+  margin:15%;
+}
+
+#games td{
+  text-align: center;
+}
+
+#games td{
+  border-right: 1px solid #BBBBBB;
+}
+
+#games p{
+  font-weight: 300;
+  font-style: italic;
+}
+
 
 #adding{
 
@@ -200,6 +220,13 @@ label{
 #adding h3{
     text-align: center;
     color: #FF3333;
+    font-family: 'Courier New', sans-serif;
+}
+
+#adding h4{
+    text-align: center;
+    font-weight: bold;
+    color: #440000;
     font-family: 'Courier New', sans-serif;
 }
 

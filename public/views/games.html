@@ -1,6 +1,7 @@
 <table>
-  <tr>
-    <th>
+
+  <tr id="gamesMainBar">
+    <th class="gameTitle">
       Game
     </th>
     <th>
@@ -9,25 +10,33 @@
     <th>
       Record
     </th>
-    <th style="width:5%">
+    <th>
+      Game desc
+    </th>
+    <th style="width:10%">
       Speedrun
     </th>
   </tr>
-  <tr  id="games" ng-repeat="jeux in datas">
-    <td class="gameCat">
-      {{jeux.nomjeu}}
-    </td>
-    <td class="gameCat">
-      {{jeux.nomcategorie}}
-    </td>
-    <td>
-      {{jeux.finalTime}}
-    </td>
-    <td>
-      <i ng-click="addUserGame(jeux.nomcategorie,jeux.nomjeu)" class="fa fa-plus-circle fa-lg" aria-hidden="true"></i>
-      <img src="./images/joystick.png" height="23px" width="23px"/>
-    </td>
-  </tr>
+
+    <tr id="games" ng-repeat="jeux in datas">
+      <td >
+        {{jeux.nomjeu}}
+      </td>
+      <td>
+        {{jeux.nomcategorie}}
+      </td>
+      <td>
+        {{jeux.finalTime}}
+      </td>
+      <td>
+        <p>{{jeux.descriptionjeu}}</p>
+        {{jeux.descriptioncategorie}}
+      </td>
+      <td>
+        <i  ng-hide="gamebutton(jeux.nomjeu,jeux.nomcategorie)" ng-click="addUserGame(jeux.nomcategorie,jeux.nomjeu)" class="fa fa-plus-circle fa-lg" aria-hidden="true"></i>
+        <img ng-show="gamebutton(jeux.nomjeu,jeux.nomcategorie)" src="./images/joystick.png" height="23px" width="23px"/>
+      </td>
+    </tr>
 </table>
 
 
@@ -39,8 +48,12 @@
   <tr>
     <th >
       <div id="indexForm">
+
+        <h4>{{messageAlert}}</h4>
+        <br/>
         <button id="gameFormbtn" class="btn waves-effect" ng-click="activate(1)">NEW GAME</button>
         <button id="catFormbtn" class="btn waves-effect" ng-click="activate(2)">NEW CATEGORY</button>
+
         <form  ng-show="active(1)">
           <br/>
           <h3>{{messageAdd}}</h3>

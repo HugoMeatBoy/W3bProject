@@ -61,7 +61,7 @@ var games = {
     var user = req.params.id;
     var cat = req.body.categorie;
     var game = req.body.game;
-    
+
     if(user != "" && cat != "" && game != ""){
       bd.newUserGame(user,cat,game,function(results){
 
@@ -100,7 +100,11 @@ var games = {
       }
       bd.newGame(nameGame,typeGame,descGame,function(results){
         if(results=="errorDB"){
-          bd.errorDB();
+          res.status(400);
+          res.json({
+            "status": 400,
+            "message": "Game already exists !"
+          });
         }
         else {
             if(results){
@@ -129,12 +133,16 @@ var games = {
         var descCat = req.body.desc;
 
         if(nameGame != "" && nameCat != ""){
-          if(descCat == ""){
-            descCat = "NULL";
+          if(descCat == "undefined" || descCat == ""){
+            descCat = "";
           }
           bd.newCategory(nameGame,nameCat,descCat,function(results){
             if(results=="errorDB"){
-              bd.errorDB();
+              res.status(400);
+              res.json({
+                "status": 400,
+                "message": "Category already exists !"
+              });
             }
             else {
                 if(results){
@@ -160,9 +168,9 @@ var games = {
     bd.getRunGames(function(results){
 
       if (!results || results == "") {
-        res.status(200);
+        res.status(400);
         res.json({
-          "status": 200,
+          "status": 400,
           "message": "No games founds"
         });
         return;

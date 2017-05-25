@@ -119,11 +119,12 @@ app.controller('LoginCtrl', ['$scope', '$http','$window',  '$location', 'TokenFa
 
 }]);
 
-app.controller('UserCtrl',['$scope', '$http','$window',  '$location',
-        function($scope, $http, $window, $location){
+
+
+
+app.controller('UserCtrl',['$scope', '$http','$window', '$location','GamesFact',
+        function($scope, $http, $window, $location,GamesFact){
           $scope.activeUser =  $window.sessionStorage.user;
-
-
 
           var url = "/api/games/" + $window.sessionStorage.id;
 
@@ -139,9 +140,13 @@ app.controller('UserCtrl',['$scope', '$http','$window',  '$location',
                       $scope.datas = response.data;
 
 
+
+
                 }, function errorCallback(response) {
 
                 });
+
+
 
           $scope.speedrun = function(game,category){
             $window.sessionStorage.SRgame = game;
@@ -163,23 +168,61 @@ app.controller('UserCtrl',['$scope', '$http','$window',  '$location',
 
 
 
+
+
+
+
+
+/****************** GAMES CONTROLLER **********************/
+
 app.controller('GamesCtrl',['$scope','$http','$window',  '$location','GamesFact',
         function($scope, $http, $window, $location,GamesFact){
 
           $scope.act = 1;
           $scope.messageAdd = "New Game";
-
+          $scope.messageAlert = "";
           $scope.jeux = [];
+
+          //GET ALL RUNNED GAMES
           $http({
                  method: 'GET',
                  url: '/api/gamesRun',
                }).then(function successCallback(response) { //Success connection
-
+                   var i = 0;
                      $scope.datas = response.data;
+
+                     while(i<$scope.datas.length){
+
+                           if($scope.datas[i].descriptioncategorie == undefined || $scope.datas[i].descriptioncategorie == 'undefined'){
+                             $scope.datas[i].descriptioncategorie = "";
+
+                           };
+                         i++;
+                    }
+
+
+                     var url = "/api/games/" + $window.sessionStorage.id;
+                     $http({
+                           method: 'GET',
+                           url: url,
+                         }).then(function successCallback(res) {
+                           $scope.jeux = res.data;
+                         }, function errorCallback(response) {
+                           $scope.messageAlert = "Error on request";
+                         });
+
+
+
+
+/*
+
+*/
                  }, function errorCallback(response) {
+                   $scope.messageAlert = "Error on request";
+         });
 
-                 });
 
+         //GET ALL GAMES
          $http({
                 method: 'GET',
                 url: '/api/games',
@@ -200,11 +243,15 @@ app.controller('GamesCtrl',['$scope','$http','$window',  '$location','GamesFact'
               $scope.namegame = "";
               $scope.typegame = "";
               $scope.descgame = "";
+              $scope.messageAlert = "";
 
               if(nameGame != undefined && typeGame != undefined)
 
               GamesFact.newGame(nameGame,typeGame,descGame).then(function successCallback(response) {
                 $location.path("/games");
+              }, function errorCallback(response) {
+
+                $scope.messageAlert = response.data.message;
               });
             }
 
@@ -218,14 +265,20 @@ app.controller('GamesCtrl',['$scope','$http','$window',  '$location','GamesFact'
               $scope.game = "";
               $scope.namecat = "";
               $scope.descat = "";
+              $scope.messageAlert = "";
 
-              if(Game != undefined && nameCat != undefined)
+              if(Game != undefined && nameCat != undefined){
 
               GamesFact.newCategory(Game,nameCat,desCat).then(function successCallback(response) {
-                console.log(response.data.status);
+
                 $location.path("/games");
+              }, function errorCallback(response) {
+
+                $scope.messageAlert = response.data.message;
               });
+
             }
+          }
 
 
 
@@ -239,6 +292,26 @@ app.controller('GamesCtrl',['$scope','$http','$window',  '$location','GamesFact'
 
               }
 
+            }
+
+
+
+            $scope.gamebutton = function(nomJ,nomC){
+              var k = 0;
+              var show = false;
+
+              for(k;k<$scope.jeux.length;k++){
+
+                console.log(k);
+                if(nomC == $scope.jeux[k].nomcategorie && nomJ == $scope.jeux[k].nomjeu){
+                    show = true
+                    return show;
+                }else{
+                   show = false;
+                }
+
+              }
+              return show;
             }
 
 
@@ -257,12 +330,19 @@ app.controller('GamesCtrl',['$scope','$http','$window',  '$location','GamesFact'
 
             $scope.activate = function(tab){
                 $scope.act = tab;
-                if(tab==1){$scope.messageAdd = "New Game"}
+                if(tab==1){
+                  $scope.messageAdd = "New Game";
+
+                }
                 else{
                   $scope.messageAdd = "New Category";
                   $scope.messageAddCat="Game must exists yet";
               }
+              $scope.messageAlert = "";
             }
+
+
+
 
 
 
@@ -270,4 +350,10 @@ app.controller('GamesCtrl',['$scope','$http','$window',  '$location','GamesFact'
 
 
 app.controller('SpeedrunCtrl',['$scope','$http','$window',  '$location','SpeedrunFact',
-      function($scope, $http, $window, $location,SpeedrunFact){    }]);
+      function($scope, $http, $window, $location,SpeedrunFact){
+        $scope.nameGame = $window.sessionStorage.SRgame;
+        $scope.nameCat = $window.sessionStorage.SRcat;
+        $scope.descCat = "GL HF";
+
+
+         }]);

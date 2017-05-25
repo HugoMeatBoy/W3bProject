@@ -95,7 +95,7 @@ var bd = {
 
        }
 
-       var sql = "SELECT nomjeu, nomcategorie FROM jeu,categorie WHERE jeu.idjeu=categorie.idjeu ORDER BY nomjeu;";
+       var sql = "SELECT nomjeu, nomcategorie, descriptionjeu, descriptioncategorie FROM jeu,categorie WHERE jeu.idjeu=categorie.idjeu ORDER BY nomjeu;";
 
           client.query(sql,  function(err, result) {
          done();
