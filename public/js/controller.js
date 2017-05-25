@@ -209,7 +209,8 @@ app.controller('GamesCtrl',['$scope','$http','$window',  '$location','GamesFact'
                          }).then(function successCallback(res) {
                            $scope.jeux = res.data;
                          }, function errorCallback(response) {
-                           $scope.messageAlert = "Error on request";
+                           $scope.messageAlert = "Error on request 2";
+                           console.log(response.data.message + response.status);
                          });
 
 
@@ -219,7 +220,7 @@ app.controller('GamesCtrl',['$scope','$http','$window',  '$location','GamesFact'
 
 */
                  }, function errorCallback(response) {
-                   $scope.messageAlert = "Error on request";
+                   $scope.messageAlert = "Error on request 1";
          });
 
 
@@ -228,8 +229,10 @@ app.controller('GamesCtrl',['$scope','$http','$window',  '$location','GamesFact'
                 method: 'GET',
                 url:  LINK+'/api/games',
               }).then(function successCallback(response) { //Success connection
+                    console.log(response.data);
                     $scope.games = response.data;
                 }, function errorCallback(response) {
+                  console.log(response.data.message + response.status);
                 });
 
 
