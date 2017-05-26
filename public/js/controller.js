@@ -104,8 +104,6 @@ app.controller('LoginCtrl', ['$scope', '$http','$window',  '$location', 'TokenFa
         };
 
       };
-
-
 }]);
 
 

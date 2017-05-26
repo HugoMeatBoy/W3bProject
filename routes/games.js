@@ -176,7 +176,7 @@ var games = {
         return;
       }
 
-    },
+    },//addCategory()
 
   getRunnedGames:function(req,res,callback){
 
