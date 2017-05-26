@@ -1,20 +1,4 @@
-app.factory('UserAuthFactory', function($window, $location, $http, TokenFact) {
-/*  return {
-    login: function(username, password) {
-      return $http.post(APPLINK+'/login', {
 
-      });
-    },
-    logout: function() {
-      if (AuthenticationFactory.isLogged) {
-        AuthenticationFactory.isLogged = false;
-        delete $window.sessionStorage.token;
-        delete $window.sessionStorage.com
-        $location.path("/login");
-      }
-    }
-  }*/
-});
 app.controller('DisplayCtrl', ['$scope','$window', '$location', 'TokenFact',
   function($scope,$window,  $location, TokenFact){
 
@@ -141,10 +125,14 @@ app.controller('UserCtrl',['$scope', '$http','$window', '$location','GamesFact',
               }).then(function successCallback(response) { //Success connection
                       $scope.message = response.data.message;
                       $scope.datas = response.data;
+                      var i = 0;
+                      if($scope.datas[i].descriptioncategorie == undefined || $scope.datas[i].descriptioncategorie == "undefined"){
+                        $scope.datas[i].descriptioncategorie = " ";
+                      }
+
                 }, function errorCallback(response) {
 
                 });
-
 
 
           $scope.speedrun = function(game,category){
@@ -181,7 +169,7 @@ app.controller('GamesCtrl',['$scope','$http','$window','$location','GamesFact','
           $scope.messageAdd = "New Game";
           $scope.messageAlert = "";
           $scope.jeux = [];
-          
+
 
           //GET ALL RUNNED GAMES
 
@@ -217,7 +205,7 @@ app.controller('GamesCtrl',['$scope','$http','$window','$location','GamesFact','
                            }
                          });
                  }, function errorCallback(response) {
-                   $scope.messageAlert = "Err";
+                   $scope.messageAlert = "No categories yet, add one !";
          });
 
 
@@ -354,6 +342,9 @@ app.controller('GamesCtrl',['$scope','$http','$window','$location','GamesFact','
         }]);
 
 
+
+
+
 app.controller('SpeedrunCtrl',['$scope','$http','$window','$location','$timeout','SpeedrunFact','LINK',
       function($scope, $http, $window, $location,$timeout,SpeedrunFact,LINK){
         $scope.nameGame = $window.sessionStorage.SRgame;
@@ -365,30 +356,88 @@ app.controller('SpeedrunCtrl',['$scope','$http','$window','$location','$timeout'
         $scope.splitsSel = [];
         var splitsCpt = 0;
         var splitsLength;
-        runSplits = "";
+        var runSplits = "";
+        var bool;
         var url;
 
 
-        url = "/api/speedrun/" + $scope.idCat;
+      $scope.setSplits = function(){
+          runSplits = "{\"run\":"+ $scope.splitsSel + "}";
+          $scope.runS = JSON.parse(runSplits);
+          splitsLength = $scope.runS.run.length;
+        }
+
+
+
+        url = "/api/"+$window.sessionStorage.id+"/speedrun/"+$scope.idCat;
         $http({
               method: 'GET',
               url:LINK+url,
             }).then(function successCallback(response) {
               $scope.dataRun = response.data;
-              if($scope.dataRun[0].datasplits){
 
-                $scope.splitsSel = $scope.dataRun[0].datasplits;
-                $scope.setSplits();
+              if($scope.dataRun[0].datasplits ){
+                if(!$scope.splitsSel){
+                  $scope.splitsSel = $scope.dataRun[0].datasplits;
+                  $scope.setSplits();
+                }
               }else{
                 $scope.messageAlert = "Add the firsts splits";
               }
             }, function errorCallback(response) {
               if(response.data){
-              console.log(response.status);
+                $scope.messageAlert = response.data.message || response.status;
              }
+        });
+
+
+
+        var url2 = "/api/"+$window.sessionStorage.id+"/speedrun/"+$scope.idCat+"/pbest";
+        $http({
+                  method: 'GET',
+                  url:LINK+url2,
+                }).then(function successCallback(response) {
+
+                  $scope.pb = response.data[0].min;
+
+                  parseInt($scope.pb);
+                  //parseInt($scope.pb);
+                  $scope.pbSecs = ($scope.pb % 60);
+                  $scope.pbMins = ($scope.pb - $scope.pbSecs) / 60;
+
+                }, function errorCallback(response){
+                  $scope.pb = response.data.status;
+         });
+
+
+
+
+        $scope.addSplits = function(){
+            $scope.bestSplits =[];
+            $scope.bestSplits  = $scope.newsplits.split(',');
+            var i = 0;
+            if($scope.bestSplits.length>0){
+              while(i<$scope.bestSplits.length){
+                if(i==0){
+                  stringSplits = "[\"" + $scope.bestSplits[i] + "\"";
+                }else{
+                  stringSplits += ",\"" + $scope.bestSplits[i] + "\"";
+                }
+                i++;
+              }
+              stringSplits += "]";
+
+              cat = $scope.idCat;
+              SpeedrunFact.addSplits(cat,stringSplits).then(function successCallback(response) {
+                  $scope.messageAlert = response.data.message;
+                  $window.location.reload();
+              }, function errorCallback(response) {
+                if(response.data){
+                  $scope.messageAlert = response.data.message;
+                }
             });
-
-
+          }
+        };
 
 
 
@@ -424,14 +473,6 @@ app.controller('SpeedrunCtrl',['$scope','$http','$window','$location','$timeout'
 
 
 
-          $scope.setSplits = function(){
-            runSplits = "{\"run\":"+ $scope.splitsSel + "}";
-
-            $scope.runS = JSON.parse(runSplits);
-            splitsLength = $scope.runS.run.length;
-
-          }
-
 
 
 
@@ -441,45 +482,53 @@ app.controller('SpeedrunCtrl',['$scope','$http','$window','$location','$timeout'
 
           /* CHRONO */
           $scope.Counter = function(){
-            if($scope.btnActive(2)){$scope.startCounter(0)}
-            else if($scope.btnActive(3)){
+            if($scope.btnActive(2)){
+              $scope.startCounter(0)
+            }else if($scope.btnActive(3)){
               $scope.splits();
-            }else{
+            }else if($scope.btnActive(1)){
               $scope.stopCounter();
+            }else{
+              $scope.saveRun();
             }
-          }
+          };
 
 
 
           $scope.startCounter = function() {
               if (timer == null){
-                console.log(splitsLength);
-                if(splitsLength== 1) {
+
+                timer = $timeout(updateCounter, 1000);
+                if(splitsLength == 1) {
                   $scope.display = 1;
                 }else{
                   $scope.display = 3;
                 }
-                timer = $timeout(updateCounter, 1000);
+
               }
           };
 
 
           $scope.splits = function(){
-            console.log(splitsCpt + "   " + splitsLength);
+
               if(splitsCpt==splitsLength-2){
                 $scope.splitsTime[splitsCpt] = $scope.counterMin + ":" + $scope.counter;
                 $scope.display = 1;
               }else{
                 $scope.splitsTime[splitsCpt] = $scope.counterMin + ":" + $scope.counter;
-                splitsCpt++;
+
+
               }
+              splitsCpt++;
           };
 
           $scope.stopCounter = function() {
-              $scope.splitsTime[splitsCpt+1] = $scope.counterMin + ":" + $scope.counter;
+              $scope.splitsTime[splitsCpt] = $scope.counterMin + ":" + $scope.counter;
+              $scope.display = 4;
               $timeout.cancel(timer);
-              timer = null;
           };
+
+
 
             $scope.resetCounter = function(){
               $timeout.cancel(timer);
@@ -502,4 +551,34 @@ app.controller('SpeedrunCtrl',['$scope','$http','$window','$location','$timeout'
               timer = $timeout(updateCounter, 1000);
           };
 
-         }]);
+
+
+          /*DB access for speedrun */
+
+          $scope.saveRun = function(){
+            user = $window.sessionStorage.id;
+            splits = $scope.splitsSel;
+            cat = $scope.idCat;
+            game = $scope.nameGame;
+            date = new Date();
+            runTime = $scope.counter + ($scope.counterMin * 60);
+            splitsTime = $scope.splitsTime.toString();
+
+            stringDate = date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes();
+
+
+            SpeedrunFact.addRun(splits,cat,game,user,stringDate,runTime,splitsTime).then(function successCallback(response) {
+                $scope.messageAlert = response.data.message;
+                $scope.resetCounter();
+            }, function errorCallback(response) {
+              if(response.data){
+                $scope.messageAlert = response.data.message;
+              }
+            });
+            }
+
+
+
+
+
+      }]);

@@ -8,10 +8,10 @@
       Category
     </th>
     <th>
-      Record
+      Details
     </th>
     <th>
-      Game desc
+      Rules
     </th>
     <th style="width:10%">
       Speedrun
@@ -19,23 +19,24 @@
   </tr>
 
     <tr id="games" ng-repeat="jeux in datas">
-      <td >
-        {{jeux.nomjeu}}
-      </td>
-      <td>
-        {{jeux.nomcategorie}}
-      </td>
-      <td>
-        {{jeux.finalTime}}
-      </td>
-      <td>
-        <p>{{jeux.descriptionjeu}}</p>
-        {{jeux.descriptioncategorie}}
-      </td>
-      <td>
-        <i  ng-hide="gamebutton(jeux.nomjeu,jeux.nomcategorie)" ng-click="addUserGame(jeux.nomcategorie,jeux.nomjeu)" class="fa fa-plus-circle fa-lg" aria-hidden="true"></i>
-        <img ng-show="gamebutton(jeux.nomjeu,jeux.nomcategorie)" src="./images/joystick.png" height="23px" width="23px"/>
-      </td>
+        <td>
+          {{jeux.nomjeu}}
+        </td>
+        <td>
+          {{jeux.nomcategorie}}
+        </td>
+        <td>
+          <p>{{jeux.descriptionjeu}}</p>
+        </td>
+        <td>
+
+          {{jeux.descriptioncategorie}}
+        </td>
+        <td>
+          <i  ng-hide="gamebutton(jeux.nomjeu,jeux.nomcategorie)" ng-click="addUserGame(jeux.nomcategorie,jeux.nomjeu)" class="fa fa-plus-circle fa-lg" aria-hidden="true"></i>
+          <img ng-show="gamebutton(jeux.nomjeu,jeux.nomcategorie)" ng-click="speedrun(jeux.nomjeu,jeux.idcategorie)" src="./images/joystick.png" height="23px" width="23px"/>
+        </td>
+
     </tr>
 </table>
 

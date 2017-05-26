@@ -1,5 +1,6 @@
 
 <div id="speedrun">
+
   <table >
     <tr>
       <th id="titleSR" colspan="5">
@@ -16,6 +17,7 @@
         <div ng-show="btnActive(1)" >Stop</div>
         <div ng-show="btnActive(2)">Start</div>
         <div ng-show="btnActive(3)">Split/</div>
+        <div ng-show="btnActive(4)">SAVE/</div>
       </td>
     </tr>
     <tr>
@@ -35,12 +37,15 @@
             </p>
           </th>
           <th id="gapsplit">
-              ecart1
+
           </th>
 
         </table>
-        <table id="bottomSplits">
 
+
+
+        <table id="bottomSplits">
+          {{messageAlert}}
           <tr>
             <td id="settingsSplits" colspan="3">
                 <select ng-model="splitsSel">
@@ -48,17 +53,19 @@
                   <option ng-repeat="splits in dataRun" ng-click="setSplits()" value="{{splits.datasplits}}">{{splits.datasplits}}</option>
                 </select>
                 <br/>
-                <input id="newSplits" placeholder="Input new splits (separate them with comas)"></input><button>Go</button>
+                <input id="newSplits" ng-model="newsplits" placeholder="Input new splits (separate them with comas)"></input><button ng-click="addSplits()">Go</button>
             </td>
           <td colspan="2" id="recordUser">
-              <p>PB :</p>
-              <p>WR :</p>
+              <p>PB : </p>
+              <p> {{ pbMins + ":" + pbSecs || "/"}} </p>
             </td>
           </tr>
         </table>
       </td>
       <td id="resets">
-        RESET <button ng-click="resetCounter()">RESTART</button>
+        <div ng-click="resetCounter()">
+          RESET
+        </div>
       </td>
     </tr>
   </table>

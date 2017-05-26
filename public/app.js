@@ -1,7 +1,7 @@
 var app = angular.module('SpeedRunners', ['ngRoute','timer']);
 
-//app.constant('LINK',"");
-app.constant('LINK',"https://w3bproject.herokuapp.com") ;
+app.constant('LINK',"");
+//app.constant('LINK',"https://w3bproject.herokuapp.com") ;
 
 
 

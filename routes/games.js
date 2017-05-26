@@ -14,7 +14,12 @@ var games = {
         return;
       }else{
         if(results=="errorDB"){
-          games.errorDB()
+          res.status(501);
+          res.json({
+            "status": 501,
+            "message": "Error on database"
+          });
+          return;
        }
        else {
           if(results){
@@ -42,7 +47,12 @@ var games = {
           return;
         }else{
           if(results=="errorDB"){
-            games.errorDB();
+            res.status(501);
+            res.json({
+              "status": 501,
+              "message": "Error on database"
+            });
+            return;
          }
          else {
             if(results){
@@ -74,9 +84,14 @@ var games = {
           return;
         }else{
           if(results=="errorDB"){
-            games.errorDB();
-         }
-         else {
+            res.status(501);
+            res.json({
+              "status": 501,
+              "message": "Error on database"
+            });
+            return;
+
+          }else{
             if(results){
               res.status(200);
               res.json(results);
@@ -127,41 +142,41 @@ var games = {
 
 
 
-    addCategory: function(req,res,callback){
-        var nameGame = req.params.nameGame;
-        var nameCat = req.body.nameC;
-        var descCat = req.body.desc;
+  addCategory: function(req,res,callback){
+      var nameGame = req.params.nameGame;
+      var nameCat = req.body.nameC;
+      var descCat = req.body.desc;
 
-        if(nameGame != "" && nameCat != ""){
-          if(descCat == "undefined" || descCat == ""){
-            descCat = "";
-          }
-          bd.newCategory(nameGame,nameCat,descCat,function(results){
-            if(results=="errorDB"){
-              res.status(400);
-              res.json({
-                "status": 400,
-                "message": "Category already exists !"
-              });
-            }
-            else {
-                if(results){
-                  res.status(201);
-                  return;
-                }
-            }
-          })
-
-        }else{
-          res.status(400);
-          res.json({
-            "status": 400,
-            "message": "Invalid inputs"
-          });
-          return;
+      if(nameGame != "" && nameCat != ""){
+        if(descCat == "undefined" || descCat == ""){
+          descCat = "";
         }
+        bd.newCategory(nameGame,nameCat,descCat,function(results){
+          if(results=="errorDB"){
+            res.status(400);
+            res.json({
+              "status": 400,
+              "message": "Category already exists !"
+            });
+          }
+          else {
+              if(results){
+                res.status(201);
+                return;
+              }
+          }
+        })
 
-      },
+      }else{
+        res.status(400);
+        res.json({
+          "status": 400,
+          "message": "Invalid inputs"
+        });
+        return;
+      }
+
+    },
 
   getRunnedGames:function(req,res,callback){
 
@@ -176,7 +191,12 @@ var games = {
         return;
       }else{
         if(results=="errorDB"){
-          games.errorDB();
+          res.status(501);
+          res.json({
+            "status": 501,
+            "message": "Error on database"
+          });
+          return;
        }
        else {
           if(results){
@@ -189,14 +209,6 @@ var games = {
     });
   },//getRunnedGames()
 
-  errorDB: function(req,res){
-      res.status(501);
-      res.json({
-        "status": 501,
-        "message": "Error on database"
-      });
-      return;
-  }
 }
 
 

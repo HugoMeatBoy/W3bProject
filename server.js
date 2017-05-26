@@ -48,44 +48,9 @@
 
 
 
-    app.all('/api/*', [require('./middlewares/tokenControl.js')]);
+  app.all('/api/*', [require('./middlewares/tokenControl.js')]);
 
-    app.use('/', require('./routes/index.js'));
-
-
-/*
-
-    app.get('/a', function(req, res) {
-      query(ssql,function(rows,err){
-          if(rows === undefined) {
-
-            res.status(500);
-            res.json({message:err});
-          } else {
-            res.status(200);
-            var data = {message:"ok",
-                          test:"no"};
-              res.render('index', function(err, data) {
-                res.send(data);
-              });
-
-          }
-      });
-    });
-*/
-
-
-
-
-
-
-
-/*
-  app.use(function(req, res, next) {
-    res.status(404);
-    res.render("Err 404");
-  });
-*/
+  app.use('/', require('./routes/index.js'));
 
   app.set('port', process.env.PORT);
 

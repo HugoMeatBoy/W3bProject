@@ -1,32 +1,33 @@
+/*
+Routage
+
+
+*/
+
+
 var express = require('express');
 var router = express.Router();
 
-var auth = require('./auth.js');
 
+
+var auth = require('./auth.js');
 var games = require('./games.js');
 var speedrun = require('./speedrun.js');
-var html = 'OH';
+
 
 
 router.post('/home', auth.login);
 
 router.post('/registration', auth.signUp);
 
-router.get('/api', auth.welcome);
-/* Routes for members
-router.get('/api/user/:idU', auth.getUser);
 
 
-router.post('/api/user/:idU/speedrun/:idS', speedrun.chooseRun);
-router.post('/api/user/:idU/speedrun/:idS/submit', speedrun.postRun);
+router.post('/api/speedrun', speedrun.newRun);
+router.get('/api/:idUser/speedrun/:cat', speedrun.setRun);
 
-router.post('/api/games/:idG/speedrun/:idS/newSplits', speedrun.addSplits);
+router.get('/api/:idU/speedrun/:idcat/pbest', speedrun.getPB);
 
-
-router.get('/api/game/:idG', games.getGame);
-*/
-
-router.get('/api/speedrun/:idCat', speedrun.setRun);
+router.post('/api/speedrun/newSplits', speedrun.addSplits);
 
 
 router.post('/api/:id/newgame',games.addUserGame);
@@ -39,6 +40,7 @@ router.post('/api/newgame', games.addGame);
 
 router.get('/api/gamesRun', games.getRunnedGames);
 router.get('/api/games', games.getAllGames);
+
 
 
 
