@@ -1,7 +1,14 @@
+/**
+
+Routing of the requests on games
+
+**/
 var bd = require('./bdConnections.js');
 
 var games = {
 
+
+  /** All datas of all games */
   getAllGames: function(req,res,callback){
     bd.getGames(function(results){
 
@@ -32,6 +39,8 @@ var games = {
     });
   },//getALlGames()
 
+
+  /* Datas of games runned by the player */
   getUserGames: function(req,res,callback){
 
     var user = req.params.id;
@@ -66,6 +75,8 @@ var games = {
     }
   },//getUserGames()
 
+
+  /* Add a new runned game to a member */
   addUserGame: function(req,res,callback){
 
     var user = req.params.id;
@@ -101,9 +112,11 @@ var games = {
         }
       });
     }
-  },//getUserGames()
+  },//addUserGames()
 
 
+
+  /* Add a game to DB */
   addGame: function(req,res,callback){
     var nameGame = req.body.name;
     var typeGame = req.body.type;
@@ -141,7 +154,7 @@ var games = {
   },//addGame()
 
 
-
+  /* Add a category to a game on DB */
   addCategory: function(req,res,callback){
       var nameGame = req.params.nameGame;
       var nameCat = req.body.nameC;
@@ -178,6 +191,8 @@ var games = {
 
     },//addCategory()
 
+
+    /* Get all games set up by a category */
   getRunnedGames:function(req,res,callback){
 
     bd.getRunGames(function(results){

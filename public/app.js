@@ -1,9 +1,18 @@
+/* Starting angular app */
 var app = angular.module('SpeedRunners', ['ngRoute','timer']);
 
 //app.constant('LINK',"");
+
+
+/* Link of the app */
 app.constant('LINK',"https://w3bproject.herokuapp.com") ;
 
 
+
+/*
+Config for request headers
+Setting up the token
+*/
 
 app.factory('TokenInterceptor', function($q, $window) {
   return {
@@ -23,6 +32,7 @@ app.factory('TokenInterceptor', function($q, $window) {
 
 
 
+/* Routing managment by Angular */
 
 app.config(function($routeProvider, $httpProvider) {
   $httpProvider.interceptors.push('TokenInterceptor');
@@ -72,7 +82,6 @@ app.run(function($rootScope, $window, $location, TokenFact) {
     } else {
       if (!TokenFact.user) TokenFact.user = $window.sessionStorage.user;
     }
-
     if (TokenFact.log == true && $location.path() == '/') {
       $location.path('/home');
     }
@@ -85,8 +94,8 @@ app.run(function($rootScope, $window, $location, TokenFact) {
 /* Directives :
   'E' : Element, 'A' : Attribute
 
-  Modules à afficher suivant la navigation
-  */
+  Header displayed if connection
+*/
 
 app.directive("header", function() {
   return {

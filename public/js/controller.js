@@ -1,4 +1,10 @@
+/*
+Display Controller
 
+Navigation
+Disconnects
+
+*/
 app.controller('DisplayCtrl', ['$scope','$window', '$location', 'TokenFact',
   function($scope,$window,  $location, TokenFact){
 
@@ -33,81 +39,94 @@ app.controller('DisplayCtrl', ['$scope','$window', '$location', 'TokenFact',
 
 }]);
 
+
+/*
+Login controller
+
+Connection, User and token managment
+*/
 app.controller('LoginCtrl', ['$scope', '$http','$window',  '$location', 'TokenFact','LoginFact','RegistrationFact',
         function($scope, $http, $window, $location, TokenFact, LoginFact, RegistrationFact) {
 
 
+            //Player's connection
           $scope.login = function() {
 
-            username = $scope.user;
-            password = $scope.password;
+                username = $scope.user;
+                password = $scope.password;
 
 
-           if (username !== undefined && password !== undefined) {
-             $scope.user = "";
-             $scope.password = "";
+               if (username !== undefined && password !== undefined) {
+                 $scope.user = "";
+                 $scope.password = "";
 
-             LoginFact.userLogin(username,password).then(function successCallback(response) { //Success connection
-                          TokenFact.log = true;
-                          $window.sessionStorage.token = response.data.token;
-                          $window.sessionStorage.id = response.data.id;
-                          $window.sessionStorage.user = username;
-                          $scope.alertMessage = "";
-                          $location.path("/home");
-                      }, function errorCallback(response) {
-                          $scope.alertMessage = "/!\\ " + response.data.message;
-                          $location.path("/");
-                      });
-
-
-          }else{
-            $scope.alertMessage = "Missing id or password";
-            $location.path("/");
-
-          };
-        };
+                 LoginFact.userLogin(username,password).then(function successCallback(response) { //Success connection
+                              TokenFact.log = true;
+                              $window.sessionStorage.token = response.data.token;
+                              $window.sessionStorage.id = response.data.id;
+                              $window.sessionStorage.user = username;
+                              $scope.alertMessage = "";
+                              $location.path("/home");
+                          }, function errorCallback(response) {
+                              $scope.alertMessage = "/!\\ " + response.data.message;
+                              $location.path("/");
+                          });
 
 
+              }else{
+                $scope.alertMessage = "Missing id or password";
+                $location.path("/");
+
+              };
+            };
 
 
+
+            //Player's registration
         $scope.signUp = function() {
 
-          userSignup = $scope.username;
-          passOne = $scope.passwordOne;
-          passTwo = $scope.passwordTwo;
+              userSignup = $scope.username;
+              passOne = $scope.passwordOne;
+              passTwo = $scope.passwordTwo;
 
 
 
-         if (userSignup !== undefined && passOne !== undefined && passTwo !== undefined) {
-           if(passOne==passTwo){
-             $scope.username = "";
-             $scope.passwordOne = "";
-             $scope.passwordTwo = "";
+             if (userSignup !== undefined && passOne !== undefined && passTwo !== undefined) {
+               if(passOne==passTwo){
+                 $scope.username = "";
+                 $scope.passwordOne = "";
+                 $scope.passwordTwo = "";
 
-             RegistrationFact.userReg(userSignup,passOne,passTwo).then(function successCallback(response) { //Success connection
-                        $scope.alertMessage = response.data.message;;
-                        $location.path("/");
-                    }, function errorCallback(response) {
-                        $scope.alertMessage = "/!\\ " + response.data.message;
-                        $location.path("/");
-                    });
-              }else{
-                  $scope.alertMessage = "/!\\ Error on validating password";
-              }
+                 RegistrationFact.userReg(userSignup,passOne,passTwo).then(function successCallback(response) { //Success connection
+                            $scope.alertMessage = response.data.message;;
+                            $location.path("/");
+                        }, function errorCallback(response) {
+                            $scope.alertMessage = "/!\\ " + response.data.message;
+                            $location.path("/");
+                        });
+                  }else{
+                      $scope.alertMessage = "/!\\ Error on validating password";
+                  }
 
 
-            //};
-        }else{
-          $scope.alertMessage = "/!\\  Missing inputs for registration";
-          $location.path("/");
+                //};
+            }else{
+              $scope.alertMessage = "/!\\  Missing inputs for registration";
+              $location.path("/");
 
-        };
+            };
 
-      };
+          };
 }]);
 
 
 
+/*
+User Controller
+
+Games runned by the user + access to speedruns
+
+*/
 
 app.controller('UserCtrl',['$scope', '$http','$window', '$location','GamesFact','LINK',
         function($scope, $http, $window, $location,GamesFact,LINK){
@@ -117,6 +136,8 @@ app.controller('UserCtrl',['$scope', '$http','$window', '$location','GamesFact',
 
           $scope.message;
           $scope.jeux = [];
+
+          //GET games runned by the active user
           $http({
                 method: 'GET',
                 url: LINK+url,
@@ -131,22 +152,23 @@ app.controller('UserCtrl',['$scope', '$http','$window', '$location','GamesFact',
                 }, function errorCallback(response) {
 
                 });
-
-
-          $scope.speedrun = function(game,category){
-            $window.sessionStorage.SRgame = game;
-            $window.sessionStorage.SRcat = category;
-            $location.path("/speedrun");
+            $scope.speedrun = function(game,category){
+              $window.sessionStorage.SRgame = game;
+              $window.sessionStorage.SRcat = category;
+              $location.path("/speedrun");
           }
 
-        $scope.active = function(){
-            if($scope.message == "No games founds"){
-              $scope.messageAlert = "Look on games to start a speedrun or add a new game !"
-              return true;
-            }else{
-              return false;
-            }
-        }
+
+
+          //Check if the user already add a game
+          $scope.active = function(){
+              if($scope.message == "No games founds"){
+                $scope.messageAlert = "Look on games to start a speedrun or add a new game !"
+                return true;
+              }else{
+                return false;
+              }
+          }
 
 
 }]);
@@ -158,71 +180,74 @@ app.controller('UserCtrl',['$scope', '$http','$window', '$location','GamesFact',
 
 
 
-/****************** GAMES CONTROLLER **********************/
+/******************
+GAMES CONTROLLER
+
+Availables games and categories
+
+Forms to add a game or a category
+
+**********************/
 
 app.controller('GamesCtrl',['$scope','$http','$window','$location','GamesFact','LINK',
         function($scope, $http, $window, $location,GamesFact, LINK){
 
-          $scope.act = 1;
-          $scope.messageAdd = "New Game";
-          $scope.messageAlert = "";
-          $scope.jeux = [];
+            $scope.act = 1;
+            $scope.messageAdd = "New Game";
+            $scope.messageAlert = "";
+            $scope.jeux = [];
 
 
-          //GET ALL RUNNED GAMES
+            //GET ALL RUNNED GAMES AND DATAS
+            $http({
+                   method: 'GET',
+                   url: LINK+'/api/gamesRun',
+                 }).then(function successCallback(response) { //Success connection
+                     var i = 0;
+                       $scope.datas = response.data;
+
+                       while(i<$scope.datas.length){
+
+                             if($scope.datas[i].descriptioncategorie == undefined || $scope.datas[i].descriptioncategorie == 'undefined'){
+                               $scope.datas[i].descriptioncategorie = "";
+                             };
+                             if($scope.datas[i].descriptionjeu == undefined || $scope.datas[i].descriptionjeu == 'undefined' || $scope.datas[i].descriptionjeu == 'NULL'){
+                               $scope.datas[i].descriptionjeu  = " ";
+                             };
+                           i++;
+                      }
+                       var url = "/api/games/" + $window.sessionStorage.id;
+                       $http({
+                             method: 'GET',
+                             url:  LINK+url,
+                           }).then(function successCallback(res) {
+                             $scope.jeux = res.data;
+                           }, function errorCallback(res) {
+                             if(res.data){
+                                $scope.messageAlert = res.data.message;
+                             }
+                           });
+                   }, function errorCallback(response) {
+                     $scope.messageAlert = "No categories yet, add one !";
+           });
 
 
-          $http({
-                 method: 'GET',
-                 url: LINK+'/api/gamesRun',
-               }).then(function successCallback(response) { //Success connection
-                   var i = 0;
-                     $scope.datas = response.data;
+           //GET ALL GAMES
+           $http({
+                  method: 'GET',
+                  url:  LINK+'/api/games',
+                }).then(function successCallback(response) { //Success connection
+                      var j = 0;
+                      $scope.games = response.data;
+                  }, function errorCallback(response) {
 
-                     while(i<$scope.datas.length){
-
-                           if($scope.datas[i].descriptioncategorie == undefined || $scope.datas[i].descriptioncategorie == 'undefined'){
-                             $scope.datas[i].descriptioncategorie = "";
-                           };
-                           if($scope.datas[i].descriptionjeu == undefined || $scope.datas[i].descriptionjeu == 'undefined' || $scope.datas[i].descriptionjeu == 'NULL'){
-                             $scope.datas[i].descriptionjeu  = " ";
-                           };
-                         i++;
-                    }
-
-
-                     var url = "/api/games/" + $window.sessionStorage.id;
-                     $http({
-                           method: 'GET',
-                           url:  LINK+url,
-                         }).then(function successCallback(res) {
-                           $scope.jeux = res.data;
-                         }, function errorCallback(res) {
-                           if(res.data){
-                              $scope.messageAlert = res.data.message;
-                           }
-                         });
-                 }, function errorCallback(response) {
-                   $scope.messageAlert = "No categories yet, add one !";
-         });
-
-
-         //GET ALL GAMES
-         $http({
-                method: 'GET',
-                url:  LINK+'/api/games',
-              }).then(function successCallback(response) { //Success connection
-                    var j = 0;
-                    $scope.games = response.data;
-                }, function errorCallback(response) {
-
-                });
+              });
 
 
 
 
 
-
+              //Adding game form
             $scope.addGame = function(){
               nameGame = $scope.namegame;
               typeGame = $scope.typegame;
@@ -234,6 +259,7 @@ app.controller('GamesCtrl',['$scope','$http','$window','$location','GamesFact','
 
               GamesFact.newGame(nameGame,typeGame,descGame).then(function successCallback(response) {
 
+                $window.location.reload();
               }, function errorCallback(response) {
                 if(response.data){
                   $scope.messageAlert = response.data.message;
@@ -252,97 +278,107 @@ app.controller('GamesCtrl',['$scope','$http','$window','$location','GamesFact','
 
 
 
+            //Adding category form
+              $scope.addCategory = function(){
+                Game = $scope.game;
+                nameCat = $scope.namecat;
+                desCat = $scope.descat;
 
-            $scope.addCategory = function(){
-              Game = $scope.game;
-              nameCat = $scope.namecat;
-              desCat = $scope.descat;
+                $scope.messageAlert = "";
 
-              $scope.messageAlert = "";
+                if(Game != undefined && nameCat != undefined){
 
-              if(Game != undefined && nameCat != undefined){
+                GamesFact.newCategory(Game,nameCat,desCat).then(function successCallback(response) {
+                    $window.location.reload();
 
-              GamesFact.newCategory(Game,nameCat,desCat).then(function successCallback(response) {
+                }, function errorCallback(response) {
+                  if(response.data){
+                    $scope.messageAlert = response.data.message;
+                  }
+                });
+                $scope.game = "";
+                $scope.namecat = "";
+                $scope.descat = "";
+
+                $window.location.reload();
+              }
+          }
 
 
-              }, function errorCallback(response) {
-                if(response.data){
-                  $scope.messageAlert = response.data.message;
-                }
+          //Add a runned game to a member
+          $scope.addUserGame = function(cat,game){
+
+            var user = $window.sessionStorage.id;
+            if(cat != undefined && user != undefined  && game != undefined){
+              GamesFact.newUserGame(cat,user,game).then(function successCallback(response) {
+                $location.path("/home");
               });
-              $scope.game = "";
-              $scope.namecat = "";
-              $scope.descat = "";
 
-              $window.location.reload();
             }
+
           }
 
 
 
-            $scope.addUserGame = function(cat,game){
+          //Check if the player already select this category
+          $scope.gamebutton = function(nomJ,nomC){
+            var k = 0;
+            var show = false;
 
-              var user = $window.sessionStorage.id;
-              if(cat != undefined && user != undefined  && game != undefined){
-                GamesFact.newUserGame(cat,user,game).then(function successCallback(response) {
-                  $location.path("/home");
-                });
-
+            for(k;k<$scope.jeux.length;k++){
+              if(nomC == $scope.jeux[k].nomcategorie && nomJ == $scope.jeux[k].nomjeu){
+                  show = true
+                  return show;
+              }else{
+                 show = false;
               }
 
             }
+            return show;
+          }
 
 
 
-            $scope.gamebutton = function(nomJ,nomC){
-              var k = 0;
-              var show = false;
 
-              for(k;k<$scope.jeux.length;k++){
-                if(nomC == $scope.jeux[k].nomcategorie && nomJ == $scope.jeux[k].nomjeu){
-                    show = true
-                    return show;
+
+
+          //Navigation setings
+          $scope.active = function(tab){
+                if($scope.act == tab){
+                  return true;
                 }else{
-                   show = false;
+                  return false;
                 }
-
-              }
-              return show;
             }
 
+          $scope.activate = function(tab){
+              $scope.act = tab;
+              if(tab==1){
+                $scope.messageAdd = "New Game";
 
-
-
-
-
-
-            $scope.active = function(tab){
-                  if($scope.act == tab){
-                    return true;
-                  }else{
-                    return false;
-                  }
               }
-
-            $scope.activate = function(tab){
-                $scope.act = tab;
-                if(tab==1){
-                  $scope.messageAdd = "New Game";
-
-                }
-                else{
-                  $scope.messageAdd = "New Category";
-                  $scope.messageAddCat="Game must exists yet";
-              }
-              $scope.messageAlert = "";
+              else{
+                $scope.messageAdd = "New Category";
+                $scope.messageAddCat="Game must exists yet";
             }
+            $scope.messageAlert = "";
+          }
 
-        }]);
+}]);
 
 
 
 
+/**
+Speedrun controller
 
+Get datas to realize a speedrun
+Send datas to save a run
+
+Timer managment
+
+
+**/
 app.controller('SpeedrunCtrl',['$scope','$http','$window','$location','$timeout','SpeedrunFact','LINK',
       function($scope, $http, $window, $location,$timeout,SpeedrunFact,LINK){
         $scope.nameGame = $window.sessionStorage.SRgame;
@@ -359,14 +395,18 @@ app.controller('SpeedrunCtrl',['$scope','$http','$window','$location','$timeout'
         var url;
 
 
-      $scope.setSplits = function(){
-          runSplits = "{\"run\":"+ $scope.splitsSel + "}";
-          $scope.runS = JSON.parse(runSplits);
-          splitsLength = $scope.runS.run.length;
-        }
+
+        /* Parsing of the splits names*/
+        $scope.setSplits = function(){
+            runSplits = "{\"run\":"+ $scope.splitsSel + "}";
+            $scope.runS = JSON.parse(runSplits);
+            splitsLength = $scope.runS.run.length;
+          }
 
 
 
+
+          // Get all speedrun datas
         url = "/api/"+$window.sessionStorage.id+"/speedrun/"+$scope.idCat;
         $http({
               method: 'GET',
@@ -389,7 +429,7 @@ app.controller('SpeedrunCtrl',['$scope','$http','$window','$location','$timeout'
         });
 
 
-
+        // Get personnal best time of the player
         var url2 = "/api/"+$window.sessionStorage.id+"/speedrun/"+$scope.idCat+"/pbest";
         $http({
                   method: 'GET',
@@ -409,7 +449,7 @@ app.controller('SpeedrunCtrl',['$scope','$http','$window','$location','$timeout'
 
 
 
-
+         // Add new splits to a category
         $scope.addSplits = function(){
             $scope.bestSplits =[];
             $scope.bestSplits  = $scope.newsplits.split(',');
@@ -447,13 +487,7 @@ app.controller('SpeedrunCtrl',['$scope','$http','$window','$location','$timeout'
 
 
 
-
-
-
-
-
-
-
+        // CHRONO CONTROL
           var timer = null;
 
 
@@ -461,6 +495,7 @@ app.controller('SpeedrunCtrl',['$scope','$http','$window','$location','$timeout'
           $scope.counterMin = 0;
 
 
+          //Display of the next action to do : Start, Split, Stop, SAve
           $scope.btnActive = function(tab){
             if($scope.display == tab){
               return true;
@@ -469,16 +504,6 @@ app.controller('SpeedrunCtrl',['$scope','$http','$window','$location','$timeout'
             }
           };
 
-
-
-
-
-
-
-
-
-
-          /* CHRONO */
           $scope.Counter = function(){
             if($scope.btnActive(2)){
               $scope.startCounter(0)
@@ -493,6 +518,8 @@ app.controller('SpeedrunCtrl',['$scope','$http','$window','$location','$timeout'
 
 
 
+
+          //Timer functions
           $scope.startCounter = function() {
               if (timer == null){
 
@@ -551,8 +578,7 @@ app.controller('SpeedrunCtrl',['$scope','$http','$window','$location','$timeout'
 
 
 
-          /*DB access for speedrun */
-
+          /*SAve results of a speedrun */
           $scope.saveRun = function(){
             user = $window.sessionStorage.id;
             splits = $scope.splitsSel;
@@ -579,4 +605,4 @@ app.controller('SpeedrunCtrl',['$scope','$http','$window','$location','$timeout'
 
 
 
-      }]);
+}]);

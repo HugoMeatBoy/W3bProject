@@ -1,9 +1,15 @@
+/*
+
+Authentication & sign up managment
+
+*/
 var jwt = require('jwt-simple');
 var bd = require('./bdConnections.js');
 var CryptoJS = require("crypto-js");
 require('dotenv').load();
 
 
+//Environnement vars
 var key = process.env.ENCODING_KEY;
 var krypt = process.env.CRYPT_KEY;
 
@@ -45,7 +51,7 @@ var auth = {
               return;
             }
             else {
-        
+
               if (results) {
                 res.status(200);
                 res.json(genToken(results[0].idmembre,results[0].pseudomembre));
@@ -80,6 +86,7 @@ var auth = {
 
       if(user && passwordOne && passwordTwo){
 
+        /* Crypt password */
         var passwordCrypt = CryptoJS.HmacSHA1(passwordOne, krypt);
 
         bd.registration(user, passwordCrypt, function(results){
@@ -121,15 +128,6 @@ var auth = {
          });
        }
 
-  },
-
-
-
-
-  getUser: function(req,res){},
-
-  welcome: function(req,res){
-      res.status(200).send("Okay");
   }
 
 }
@@ -138,7 +136,7 @@ var auth = {
 
 
 
-
+//Private functions - Token creation
 function genToken(id,user) {
   var expires = expiresIn(1); // 1 day
   var token = jwt.encode({

@@ -1,3 +1,8 @@
+/*
+
+Control of the DB access
+
+*/
 var pg = require('pg');
 
 
@@ -6,6 +11,10 @@ var conString = process.env.DATABASE_URL;
 
 var bd = {
 
+
+    /** INSCRIPTION :
+
+    INSERT table Membre **/
     registration: function(user,passwordCry,callback){
       pg.connect(conString, function(err, client, done) {
          if(err) {
@@ -25,7 +34,6 @@ var bd = {
              callback("errorDB");
              return;
            }else {
-
              callback("OK");
              return;
           }
@@ -33,26 +41,26 @@ var bd = {
       });
     },
 
+    /* CONNECTION
+
+    SELECT table Membre */
     authentication: function(user,password,callback){
       pg.connect(conString, function(err, client, done) {
 
          if(err) {
            return console.error('error fetching client from pool', err);
-
          }
-
 
          var sql = "SELECT * FROM membre WHERE pseudoMembre=\'"+ user +"\' AND passwordMembre = \'"+password+"\';";
 
          client.query(sql,  function(err, result) {
-           //call `done()` to release the client back to the pool
+
            done();
 
            if(err) {
              callback("errorDB");
              return;
            }else {
-             console.log("ok");
              callback(result.rows);
              return;
           }
@@ -64,8 +72,14 @@ var bd = {
 
 
 
-    /*** GAMES ***/
 
+
+    /***
+     GAMES
+    ***/
+
+
+    /* ALL GAMES */
     getGames: function(callback){
       pg.connect(conString, function(err, client, done) {
          if(err) {
@@ -90,6 +104,10 @@ var bd = {
     });
   }, //getGames()
 
+
+
+
+  /* GAMES RUNNED BY THE PLAYER */
   getRunGames: function(callback){
     pg.connect(conString, function(err, client, done) {
        if(err) {
@@ -103,11 +121,9 @@ var bd = {
          done();
 
          if(err) {
-           console.log(err);
            callback("errorDB");
            return;
          }else {
-            console.log(result.rows);
            callback(result.rows);
            return;
         }
@@ -115,32 +131,39 @@ var bd = {
      });
   }, //getRunGames()
 
+
+
+
+  /* Get all datas from runned games */
   userGames: function(user,callback){
-    pg.connect(conString, function(err, client, done) {
-       if(err) {
-         return console.error('error fetching client from pool', err);
+        pg.connect(conString, function(err, client, done) {
+           if(err) {
+             return console.error('error fetching client from pool', err);
+           }
 
-       }
+
+           var sql = "SELECT nomjeu, nomcategorie, categorie.idcategorie, descriptioncategorie FROM jeu,jeuspeedrun,categorie WHERE jeu.idjeu=categorie.idjeu AND categorie.idcategorie=jeuspeedrun.idcategorie AND idmembre="+ user +" ORDER BY nomjeu;";
+           console.log(sql);
+           client.query(sql,  function(err, result) {
+             done();
+
+             if(err) {
+               callback("errorDB");
+               return;
+             }else {
+
+               callback(result.rows);
+               return;
+            }
+           });
+      });
+   },//userGames()
 
 
-       var sql = "SELECT nomjeu, nomcategorie, categorie.idcategorie, descriptioncategorie FROM jeu,jeuspeedrun,categorie WHERE jeu.idjeu=categorie.idjeu AND categorie.idcategorie=jeuspeedrun.idcategorie AND idmembre="+ user +" ORDER BY nomjeu;";
-       console.log(sql);
-       client.query(sql,  function(err, result) {
-         done();
 
-         if(err) {
-           console.log(err);
-           callback("errorDB");
-           return;
-         }else {
 
-           callback(result.rows);
-           return;
-        }
-       });
-  });
-},//userGames()
 
+   /* Add a runned game */
   newUserGame: function(user,cat,game,callback){
     pg.connect(conString, function(err, client, done) {
        if(err) {
@@ -165,6 +188,8 @@ var bd = {
   });
   },//newUserGame()
 
+
+    /* Add a game to common data base*/
     newGame: function(name,type,desc,callback){
       pg.connect(conString, function(err, client, done) {
          if(err) {
@@ -176,7 +201,6 @@ var bd = {
          var sql = "INSERT INTO jeu (nomjeu,typejeu,descriptionjeu) VALUES(\'"+name+"\',\'"+type+"\',\'"+desc+"\');";
 
          client.query(sql,  function(err, result) {
-           //call `done()` to release the client back to the pool
            done();
 
            if(err) {
@@ -192,6 +216,7 @@ var bd = {
       });
     },//newGame
 
+    /* Add a category ton a common game */
     newCategory: function(nameG,nameC,desc,callback){
       pg.connect(conString, function(err, client, done) {
          if(err) {
@@ -202,12 +227,10 @@ var bd = {
          var sql = "INSERT INTO categorie (idjeu,nomcategorie,descriptioncategorie) VALUES((SELECT idjeu FROM jeu WHERE nomjeu=\'"+nameG+"\'),\'"+nameC+"\',\'"+desc+"\');";
 
          client.query(sql,  function(err, result) {
-           //call `done()` to release the client back to the pool
+
            done();
 
            if(err) {
-             console.log(err);
-
              callback("errorDB");
              return;
            }else {
@@ -223,8 +246,12 @@ var bd = {
 
 
 
-    /******* SPEEDRUN ***********/
+    /*******
+    SPEEDRUN
+    ***********/
 
+
+    /* Take the datas to setup a speedrun */
     setSpeedrun: function(cat,user,callback){
       pg.connect(conString, function(err, client, done) {
          if(err) {
@@ -235,23 +262,21 @@ var bd = {
 
 
          client.query(sql,  function(err, result) {
-           //call `done()` to release the client back to the pool
            done();
 
            if(err) {
-             console.log(err);
              callback("errorDB");
              return;
            }else {
-             console.log(result.rows);
              callback(result.rows);
              return;
           }
          });
       });
-    },
+    },//setSpeedrun()
 
 
+    /* Save a performance on a speedrun */
     saveSpeedrun: function(splits,idcat,game,idUser,date,time,splitsTimes,callback){
 
       pg.connect(conString, function(err, client, done) {
@@ -262,49 +287,48 @@ var bd = {
          var sql ="INSERT INTO run (idsplits,idcategorie,idjeu,idmembre,daterun,finaltime,datafinaltimes) VALUES((SELECT idsplits FROM splits WHERE datasplits = \'"+splits+"\' AND idcategorie = \'"+idcat+"\'),\'"+idcat+"\',(SELECT idjeu FROM jeu WHERE nomjeu=\'"+game+"\'),\'"+idUser+"\',\'"+date+"\',"+time+",\'"+splitsTimes+"\');";
 
          client.query(sql,  function(err, result) {
-           //call `done()` to release the client back to the pool
-           done();
+             done();
 
-           if(err) {
-             console.log(err);
-             callback("errorDB");
-             return;
-           }else {
+             if(err) {
+               callback("errorDB");
+               return;
+             }else {
 
-             callback("OK");
-             return;
+               callback("OK");
+               return;
           }
          });
 
 
 
-    });
-  },
+        });
+      },//saveSpeedrun()
 
-    getPBSpeedrun: function(user,cat,callback){
-      pg.connect(conString, function(err, client, done) {
-         if(err) {
-           return console.error('error fetching client from pool', err);
 
-         }
-         var sql ="SELECT min(finaltime),datafinaltimes FROM run WHERE idmembre="+user+" AND idcategorie="+cat+" GROUP BY finaltime,datafinaltimes;";
+      /* Get the best result of a player on a category */
 
-         client.query(sql,  function(err, result) {
-           //call `done()` to release the client back to the pool
-           done();
-
+      getPBSpeedrun: function(user,cat,callback){
+        pg.connect(conString, function(err, client, done) {
            if(err) {
-             console.log(err);
-             callback("errorDB");
-             return;
-           }else {
-             console.log(result.rows);
-             callback(result.rows);
-             return;
-          }
-         });
-      });
-    },
+             return console.error('error fetching client from pool', err);
+
+           }
+           var sql ="SELECT min(finaltime),datafinaltimes FROM run WHERE idmembre="+user+" AND idcategorie="+cat+" GROUP BY finaltime,datafinaltimes;";
+
+           client.query(sql,  function(err, result) {
+             //call `done()` to release the client back to the pool
+             done();
+
+             if(err) {
+               callback("errorDB");
+               return;
+             }else {
+               callback(result.rows);
+               return;
+            }
+           });
+        });
+      },//getPBSpeedrun()
 
 /*
     getWRSpeedrun: function(cat,callback){
@@ -331,6 +355,8 @@ var bd = {
       });
     },
 */
+
+  /* Create new splits on a category */
     newSplits: function(cat,splitsList,callback){
       pg.connect(conString, function(err, client, done) {
          if(err) {
@@ -353,7 +379,7 @@ var bd = {
           }
          });
       });
-    }
+    }//newSplits()
 }
 
 module.exports = bd;

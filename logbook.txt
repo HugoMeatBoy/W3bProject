@@ -1,4 +1,0 @@
-Package dotenv BY motdotla https://github.com/motdotla/dotenv
-
-
-www.flaticon.com by Dave Gandy

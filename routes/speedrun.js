@@ -1,8 +1,15 @@
+/**
+
+Speerun request receiver
+
+**/
+
 var bd = require('./bdConnections.js');
 
 
 var speedrun = {
 
+    /* Get datas to setup the run */
     setRun: function(req,res,callback){
 
       var user = req.params.idUser;
@@ -49,6 +56,8 @@ var speedrun = {
       }
     },//setRun()
 
+
+    /*  Save a run */
     newRun: function(req,res,callback){
 
 
@@ -95,6 +104,7 @@ var speedrun = {
 
     },//postRun()
 
+    /* Add a set of splits for a category of speedrun */
     addSplits: function(req,res,callback){
           var splits = req.body.splits || "";
           var cat = req.body.cat || "";
@@ -125,6 +135,7 @@ var speedrun = {
     },//addSplits()
 
 
+    /* Get the best time of a player on a category */
     getPB: function(req,res,callback){
           var user = req.params.idU || "";
           var cat = req.params.idcat || "";

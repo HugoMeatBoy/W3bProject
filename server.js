@@ -1,3 +1,13 @@
+/*
+
+
+NodeJS server with Express.js Framework
+
+
+*/
+
+
+/* Setup node modules */
   var express  = require('express');
   var morgan = require('morgan');
   var bodyParser = require('body-parser');
@@ -6,7 +16,7 @@
   var cookie = require('cookie-parser');
   var html = require('html');
   var ejs = require('ejs');
-  //var helmet = require('helmet')
+
   require('dotenv').load();
   var CryptoJS = require("crypto-js");
 
@@ -18,27 +28,25 @@
 
 
 
+  app.use(morgan('dev'));//Dev tool writing received requests
 
-  app.use(morgan('dev'));
+
+    /* Client data routing & setup */
   app.use(express.static(__dirname + '/public'));
   app.engine('html', require('ejs').renderFile);
   app.set('view engine', 'html');
   app.set('views', __dirname + '/public/views');
 
-  //app.use(helmet());
-
-
-
   app.use(bodyParser.urlencoded({'extended':'true'}));
   app.use(bodyParser.json());
   app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
+
 
   //Configuration CORS - Header HTTP/Requetes Multi-Origines
   app.all('/*', function(req, res, next) {
       res.header("Access-Control-Allow-Origin", "*");
       res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
       res.header('Access-Control-Allow-Headers', 'Content-type,Accept,X-Access-Token,X-Key');
-
       if (req.method == 'OPTIONS') {
         res.status(200).end();
       } else {
@@ -47,44 +55,18 @@
     });
 
 
-
+  /* Token Check Up */
   app.all('/api/*', [require('./middlewares/tokenControl.js')]);
 
+  /* Routing */
   app.use('/', require('./routes/index.js'));
 
+
+
+
+  /* STarting server */
   app.set('port', process.env.PORT);
 
     var server = app.listen(app.get('port'), function() {
       console.log('Express server listening on port ' + server.address().port);
     });
-
-
-
-    var query = function(sql, callback)
-    {
-
-      var connectionString = process.env.DB_ACCESS;
-      pg.defaults.ssl = true;
-      pg.connect(connectionString, function(error, client, done) {
-        // Problème de connexion à la BD
-        if(error) {
-          console.error('Connexion à la base de donnée impossible',error);
-          var error = new Error("Connexion à la base de donnée impossible");
-          error.http_code = 500;
-          return callback(null,error);
-        }
-        client.query(sql,function(error, result){
-          //On ferme la connexion
-          client.end();
-          if(error){
-            console.error('La requête a retournée une erreur',error);
-            var error = new Error("La requête a retournée une erreur");
-            error.http_code = 400;
-            return callback(null,error);
-          }
-          // Pas d'erreur
-          callback(result.rows,null);
-          return;
-        });
-      });
-    };
