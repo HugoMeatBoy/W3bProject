@@ -67,6 +67,12 @@ app.config(function($routeProvider, $httpProvider) {
     permission: {
       login: true
     }
+  }).when('/presentation', {
+    templateUrl: 'views/presentation.html',
+    controller: 'DisplayCtrl',
+    permission: {
+      login: true
+    }
   }).otherwise({
     redirectTo: '/'
   });

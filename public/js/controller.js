@@ -33,6 +33,10 @@ app.controller('DisplayCtrl', ['$scope','$window', '$location', 'TokenFact',
       $location.path("/home");
     }
 
+    $scope.goPresentation = function(){
+      $location.path("/presentation");
+    }
+
     $scope.goGames = function(){
       $location.path("/games");
     }
@@ -152,9 +156,10 @@ app.controller('UserCtrl',['$scope', '$http','$window', '$location','GamesFact',
                 }, function errorCallback(response) {
 
                 });
-            $scope.speedrun = function(game,category){
+            $scope.speedrun = function(game,category,desc){
               $window.sessionStorage.SRgame = game;
               $window.sessionStorage.SRcat = category;
+              $window.sessionStorage.SRdcat = desc;
               $location.path("/speedrun");
           }
 
@@ -259,7 +264,6 @@ app.controller('GamesCtrl',['$scope','$http','$window','$location','GamesFact','
 
               GamesFact.newGame(nameGame,typeGame,descGame).then(function successCallback(response) {
 
-                $window.location.reload();
               }, function errorCallback(response) {
                 if(response.data){
                   $scope.messageAlert = response.data.message;
@@ -289,7 +293,7 @@ app.controller('GamesCtrl',['$scope','$http','$window','$location','GamesFact','
                 if(Game != undefined && nameCat != undefined){
 
                 GamesFact.newCategory(Game,nameCat,desCat).then(function successCallback(response) {
-                    $window.location.reload();
+
 
                 }, function errorCallback(response) {
                   if(response.data){
@@ -383,7 +387,7 @@ app.controller('SpeedrunCtrl',['$scope','$http','$window','$location','$timeout'
       function($scope, $http, $window, $location,$timeout,SpeedrunFact,LINK){
         $scope.nameGame = $window.sessionStorage.SRgame;
         $scope.idCat = $window.sessionStorage.SRcat;
-        $scope.descCat = "GL HF";
+        $scope.descCat = $window.sessionStorage.SRdcat;
         $scope.display = 2;
         $scope.dataRun = [];
         $scope.splitsTime = [];
@@ -594,6 +598,7 @@ app.controller('SpeedrunCtrl',['$scope','$http','$window','$location','$timeout'
             SpeedrunFact.addRun(splits,cat,game,user,stringDate,runTime,splitsTime).then(function successCallback(response) {
                 $scope.messageAlert = response.data.message;
                 $scope.resetCounter();
+                $window.location.reload();
             }, function errorCallback(response) {
               if(response.data){
                 $scope.messageAlert = response.data.message;

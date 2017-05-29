@@ -14,10 +14,10 @@
         <h2>{{counterMin + ":" + counter}}</h2>
       </td>
       <td id="playBtn" ng-click="Counter()">
-        <div ng-show="btnActive(1)" >Stop</div>
-        <div ng-show="btnActive(2)">Start</div>
-        <div ng-show="btnActive(3)">Split/</div>
-        <div ng-show="btnActive(4)">SAVE/</div>
+        <div ng-show="btnActive(1)" ><i class="fa fa-stop fa-5x" aria-hidden="true"></i><h3>FINISH</h3></div>
+        <div ng-show="btnActive(2)"><i class="fa fa-play fa-5x" aria-hidden="true"></i><h3>START</h3></div>
+        <div ng-show="btnActive(3)"><i class="fa fa-code fa-5x" aria-hidden="true"></i><h3>SPLIT</h3></div>
+        <div ng-show="btnActive(4)"><i class="fa fa-floppy-o fa-5x" aria-hidden="true"></i><h3>SAVE</h3></div>
       </td>
     </tr>
     <tr>
@@ -64,7 +64,8 @@
       </td>
       <td id="resets">
         <div ng-click="resetCounter()">
-          RESET
+          <i class="fa fa-repeat fa-5x" aria-hidden="true"></i>
+          <h3>RESET</h3>
         </div>
       </td>
     </tr>
