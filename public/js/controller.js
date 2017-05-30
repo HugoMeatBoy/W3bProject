@@ -405,7 +405,7 @@ app.controller('SpeedrunCtrl',['$scope','$http','$window','$location','$timeout'
             runSplits = "{\"run\":"+ $scope.splitsSel + "}";
             $scope.runS = JSON.parse(runSplits);
             splitsLength = $scope.runS.run.length;
-          }
+        }
 
 
 

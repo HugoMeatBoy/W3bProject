@@ -50,10 +50,12 @@
             <td id="settingsSplits" colspan="3">
                 <select ng-model="splitsSel">
                   <option value="" disabled selected>Select splits..</option>
-                  <option ng-repeat="splits in dataRun" ng-click="setSplits()" value="{{splits.datasplits}}">{{splits.datasplits}}</option>
+                  <option ng-repeat="splits in dataRun" value="{{splits.datasplits}}">{{splits.datasplits}}</option>
                 </select>
+                <button id="AddSplitsBut" class="btn waves-effect waves-light" ng-click="setSplits()">Set</button>
                 <br/>
-                <input id="newSplits" ng-model="newsplits" placeholder="Input new splits (separate them with comas)"></input><button ng-click="addSplits()">Go</button>
+                <input id="newSplits" ng-model="newsplits" placeholder="Input new splits (separate them with comas)"></input>
+                <button id="newSplitsBut" class="btn waves-effect waves-light" ng-click="addSplits()">Go</button>
             </td>
           <td colspan="2" id="recordUser">
               <p>PB : </p>

@@ -410,6 +410,14 @@ select{
   text-align: center;
 }
 
+#AddSplitsBut{
+  background-color: #992222;
+}
+
+#newSplitsBut{
+  background-color: #660000;
+}
+
 
 
 
